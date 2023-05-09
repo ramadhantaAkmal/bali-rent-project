@@ -1,5 +1,6 @@
 import 'package:bali_rent/style.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 class WelcomeMain extends StatelessWidget {
   const WelcomeMain({super.key});
@@ -66,7 +67,9 @@ class WelcomeMain extends StatelessWidget {
                     fontSize: 20,
                     color: Colors.white),
               ),
-              onPressed: () {},
+              onPressed: () {
+                context.push('/homescreen');
+              },
             ),
           ),
           const Spacer(
