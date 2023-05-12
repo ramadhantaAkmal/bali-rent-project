@@ -1,6 +1,7 @@
 import 'package:bali_rent/style.dart';
 import 'package:bali_rent/views/ui/homescreen_page/homescreen_widget/brand_card.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 import 'homescreen_widget/car_card.dart';
 
@@ -16,6 +17,7 @@ class _HomescreenMainState extends State<HomescreenMain> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       backgroundColor: themeColor,
       body: _buildBody(context),
       bottomNavigationBar: _buildBottomNavbar(context),
@@ -32,15 +34,15 @@ class _HomescreenMainState extends State<HomescreenMain> {
     return BottomNavigationBar(
       type: BottomNavigationBarType.fixed,
       items: [
-        BottomNavigationBarItem(
+        const BottomNavigationBarItem(
           icon: Icon(Icons.home),
           label: 'Home',
         ),
-        BottomNavigationBarItem(
+        const BottomNavigationBarItem(
           icon: Icon(Icons.text_snippet),
           label: 'Orders',
         ),
-        BottomNavigationBarItem(
+        const BottomNavigationBarItem(
           icon: Icon(Icons.account_circle),
           label: 'Profile',
         ),
@@ -74,7 +76,9 @@ class _HomescreenMainState extends State<HomescreenMain> {
                   ),
                 ),
                 TextButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    context.push('/homescreen/login');
+                  },
                   child: const Text(
                     'Sign In',
                     style: TextStyle(
@@ -144,11 +148,11 @@ class _HomescreenMainState extends State<HomescreenMain> {
                       physics: const BouncingScrollPhysics(),
                       shrinkWrap: true,
                       scrollDirection: Axis.horizontal,
-                      itemBuilder: (context, index) => BrandCard(),
+                      itemBuilder: (context, index) => const BrandCard(),
                       itemCount: 10,
                     ),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     width: 10,
                   ),
                   Padding(
@@ -156,15 +160,17 @@ class _HomescreenMainState extends State<HomescreenMain> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text(
-                          'Available Brands',
+                        const Text(
+                          'Available Cars',
                           style: TextStyle(
                             fontSize: 18,
                             fontWeight: FontWeight.w500,
                           ),
                         ),
                         TextButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            context.push('/homescreen/carlist');
+                          },
                           child: const Text(
                             'See All',
                             style: TextStyle(
@@ -181,7 +187,7 @@ class _HomescreenMainState extends State<HomescreenMain> {
                       physics: const BouncingScrollPhysics(),
                       shrinkWrap: true,
                       scrollDirection: Axis.horizontal,
-                      itemBuilder: (context, index) => CarCard(),
+                      itemBuilder: (context, index) => const CarCard(),
                       itemCount: 10,
                     ),
                   ),
