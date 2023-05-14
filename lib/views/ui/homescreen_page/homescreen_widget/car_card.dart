@@ -5,10 +5,18 @@ class CarCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      color: Colors.grey,
-      width: 202,
-      margin: const EdgeInsets.all(5),
+    return Material(
+      child: Container(
+        decoration: BoxDecoration(
+          color: Colors.grey.withOpacity(0.5),
+        ),
+        width: 202,
+        margin: const EdgeInsets.all(5),
+        child: InkWell(
+          onTap: () {},
+          splashColor: Colors.black,
+        ),
+      ),
     );
   }
 }
