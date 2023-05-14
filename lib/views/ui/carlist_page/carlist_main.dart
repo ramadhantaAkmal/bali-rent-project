@@ -3,7 +3,6 @@ import 'package:bali_rent/views/ui/carlist_page/carlist_widget/car_card.dart';
 
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 
 class CarListMain extends StatelessWidget {
   const CarListMain({super.key});
