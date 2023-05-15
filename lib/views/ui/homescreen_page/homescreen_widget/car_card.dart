@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 class CarCard extends StatelessWidget {
   const CarCard({super.key});
@@ -13,7 +14,9 @@ class CarCard extends StatelessWidget {
         width: 202,
         margin: const EdgeInsets.all(5),
         child: InkWell(
-          onTap: () {},
+          onTap: () {
+            context.push('/homescreen/detail');
+          },
           splashColor: Colors.black,
         ),
       ),
