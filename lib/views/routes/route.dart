@@ -1,4 +1,7 @@
+import 'package:bali_rent/views/ui/aboutus_page/aboutuse_main.dart';
 import 'package:bali_rent/views/ui/carlist_page/carlist_main.dart';
+import 'package:bali_rent/views/ui/change_password_page/change_password_main.dart';
+import 'package:bali_rent/views/ui/edit_profile_page/edit_profile_main.dart';
 import 'package:bali_rent/views/ui/login_page/login_main.dart';
 import 'package:bali_rent/views/ui/register_page/register_main.dart';
 import 'package:flutter/material.dart';
@@ -24,7 +27,6 @@ final GoRouter router = GoRouter(
             },
             routes: <RouteBase>[
               GoRoute(
-                name: 'carlist',
                 path: 'carlist',
                 builder: (BuildContext context, GoRouterState state) {
                   return const CarListMain();
@@ -43,6 +45,24 @@ final GoRouter router = GoRouter(
                       },
                     )
                   ]),
+              GoRoute(
+                path: 'editprofile',
+                builder: (BuildContext context, GoRouterState state) {
+                  return const EditProfileMain();
+                },
+              ),
+              GoRoute(
+                path: 'changepass',
+                builder: (BuildContext context, GoRouterState state) {
+                  return const ChangePassMain();
+                },
+              ),
+              GoRoute(
+                path: 'about',
+                builder: (BuildContext context, GoRouterState state) {
+                  return const AboutUsMain();
+                },
+              ),
             ]),
       ],
     ),

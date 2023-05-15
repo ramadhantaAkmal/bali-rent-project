@@ -1,5 +1,6 @@
 import 'package:bali_rent/style.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 class ProfileMain extends StatelessWidget {
   const ProfileMain({super.key});
@@ -92,13 +93,18 @@ class ProfileMain extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     _rowMenuBuilder(
-                        context, 'Edit Profile', Icons.person_rounded, () {}),
+                        context, 'Edit Profile', Icons.person_rounded, () {
+                      context.push('/homescreen/editprofile');
+                    }),
                     const Divider(height: 20, thickness: 1),
-                    _rowMenuBuilder(
-                        context, 'Change Password', Icons.lock, () {}),
+                    _rowMenuBuilder(context, 'Change Password', Icons.lock, () {
+                      context.push('/homescreen/changepass');
+                    }),
                     const Divider(height: 20, thickness: 1),
-                    _rowMenuBuilder(
-                        context, 'About Us', Icons.info_rounded, () {}),
+                    _rowMenuBuilder(context, 'About Us', Icons.info_rounded,
+                        () {
+                      context.push('/homescreen/about');
+                    }),
                   ],
                 ),
               ),
