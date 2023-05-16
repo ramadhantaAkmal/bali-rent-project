@@ -4,6 +4,7 @@ import 'package:bali_rent/views/ui/change_password_page/change_password_main.dar
 import 'package:bali_rent/views/ui/detail_page/detail_main.dart';
 import 'package:bali_rent/views/ui/edit_profile_page/edit_profile_main.dart';
 import 'package:bali_rent/views/ui/login_page/login_main.dart';
+import 'package:bali_rent/views/ui/order_page/order_main.dart';
 import 'package:bali_rent/views/ui/register_page/register_main.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -65,11 +66,18 @@ final GoRouter router = GoRouter(
                 },
               ),
               GoRoute(
-                path: 'detail',
-                builder: (BuildContext context, GoRouterState state) {
-                  return const DetailMain();
-                },
-              ),
+                  path: 'detail',
+                  builder: (BuildContext context, GoRouterState state) {
+                    return const DetailMain();
+                  },
+                  routes: <RouteBase>[
+                    GoRoute(
+                      path: 'order',
+                      builder: (BuildContext context, GoRouterState state) {
+                        return const OrderMain();
+                      },
+                    )
+                  ]),
             ]),
       ],
     ),

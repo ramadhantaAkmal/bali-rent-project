@@ -310,13 +310,15 @@ class DetailMain extends StatelessWidget {
             padding: const EdgeInsets.symmetric(horizontal: 10),
             margin: const EdgeInsets.symmetric(vertical: 10),
             child: MaterialButton(
-              onPressed: () {},
+              onPressed: () {
+                context.push('/homescreen/detail/order');
+              },
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(10.0),
               ),
               color: primaryColor,
               child: const Text(
-                'SAVE',
+                'Rent It!',
                 style: TextStyle(
                   fontSize: 18,
                   color: Colors.white,
