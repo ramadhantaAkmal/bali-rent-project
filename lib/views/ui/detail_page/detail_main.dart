@@ -63,14 +63,14 @@ class DetailMain extends StatelessWidget {
             decoration: BoxDecoration(
               border: Border.all(color: Colors.black45),
               boxShadow: [
-                BoxShadow(
+                const BoxShadow(
                     blurRadius: 5,
                     spreadRadius: 2,
                     offset: Offset(3, 4),
                     color: Colors.black26),
               ],
             ),
-            child: Image(
+            child: const Image(
               image: AssetImage('assets/images/toyota-avanza.jpeg'),
             ),
           ),
@@ -82,7 +82,7 @@ class DetailMain extends StatelessWidget {
               children: [
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
+                  children: const [
                     Text(
                       'Toyota Avanza',
                       style: TextStyle(
@@ -106,8 +106,8 @@ class DetailMain extends StatelessWidget {
                     ),
                   ],
                 ),
-                Padding(
-                  padding: const EdgeInsets.only(top: 5),
+                const Padding(
+                  padding: EdgeInsets.only(top: 5),
                   child: Text(
                     'Rp. 399.000/day',
                     style: TextStyle(
@@ -119,7 +119,7 @@ class DetailMain extends StatelessWidget {
               ],
             ),
           ),
-          Divider(
+          const Divider(
             color: Colors.grey,
           ),
           Row(
@@ -127,7 +127,7 @@ class DetailMain extends StatelessWidget {
             children: [
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
+                children: const [
                   Text(
                     'I Made Cakra',
                     style: TextStyle(fontSize: 15),
@@ -163,7 +163,7 @@ class DetailMain extends StatelessWidget {
                     ),
                     child: IconButton(
                       onPressed: () {},
-                      icon: Icon(
+                      icon: const Icon(
                         Icons.chat,
                         color: primaryColor,
                       ),
@@ -189,7 +189,7 @@ class DetailMain extends StatelessWidget {
                     ),
                     child: IconButton(
                       onPressed: () {},
-                      icon: Icon(
+                      icon: const Icon(
                         Icons.phone,
                         color: primaryColor,
                       ),
@@ -199,17 +199,17 @@ class DetailMain extends StatelessWidget {
               ),
             ],
           ),
-          Divider(
+          const Divider(
             color: Colors.grey,
           ),
-          Text(
+          const Text(
             'Car Info',
             style: TextStyle(
               fontSize: 23,
               fontWeight: FontWeight.w700,
             ),
           ),
-          Spacer(
+          const Spacer(
             flex: 5,
           ),
           Row(
@@ -221,7 +221,7 @@ class DetailMain extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Row(
-                      children: [
+                      children: const [
                         Icon(
                           Icons.airline_seat_recline_normal,
                           color: primaryColor,
@@ -236,11 +236,11 @@ class DetailMain extends StatelessWidget {
                         ),
                       ],
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 20,
                     ),
                     Row(
-                      children: [
+                      children: const [
                         Image(
                           image: AssetImage('assets/images/manual.png'),
                           height: 20,
@@ -264,7 +264,7 @@ class DetailMain extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Row(
-                      children: [
+                      children: const [
                         Icon(
                           Icons.local_gas_station,
                           color: primaryColor,
@@ -279,11 +279,11 @@ class DetailMain extends StatelessWidget {
                         ),
                       ],
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 15,
                     ),
                     Row(
-                      children: [
+                      children: const [
                         Image(
                           image: AssetImage('assets/images/Tire.png'),
                         ),
@@ -301,7 +301,7 @@ class DetailMain extends StatelessWidget {
               ),
             ],
           ),
-          Spacer(
+          const Spacer(
             flex: 10,
           ),
           Container(

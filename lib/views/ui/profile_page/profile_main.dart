@@ -40,18 +40,18 @@ class ProfileMain extends StatelessWidget {
                 ),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const Text(
+                  children: const [
+                    Text(
                       'M Akmal R',
                       style: TextStyle(
                         color: primaryColor,
                         fontSize: 16,
                       ),
                     ),
-                    const SizedBox(
+                    SizedBox(
                       height: 10,
                     ),
-                    const Text('+62xxxxxxxx'),
+                    Text('+62xxxxxxxx'),
                   ],
                 ),
               ],

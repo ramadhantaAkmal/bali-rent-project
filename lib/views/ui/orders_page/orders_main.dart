@@ -1,7 +1,6 @@
 import 'package:bali_rent/style.dart';
 import 'package:bali_rent/views/ui/orders_page/orders_widget/order_card.dart';
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 
 class OrdersMain extends StatelessWidget {
   const OrdersMain({super.key});
@@ -24,7 +23,7 @@ class OrdersMain extends StatelessWidget {
       bottomOpacity: 1.0,
       backgroundColor: themeColor,
       automaticallyImplyLeading: false,
-      title: Text(
+      title: const Text(
         'Order History',
         style: TextStyle(
           color: primaryColor,
@@ -38,7 +37,7 @@ class OrdersMain extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        TabBar(
+        const TabBar(
           tabs: [
             Tab(
               text: 'Active',
@@ -59,12 +58,12 @@ class OrdersMain extends StatelessWidget {
         ),
         Expanded(
           child: Container(
-            padding: EdgeInsets.symmetric(horizontal: 10),
+            padding: const EdgeInsets.symmetric(horizontal: 10),
             height: MediaQuery.of(context).size.height,
             width: 350,
             child: ListView.builder(
               itemBuilder: (context, index) {
-                return OrderCard();
+                return const OrderCard();
               },
               shrinkWrap: true,
               itemCount: 10,

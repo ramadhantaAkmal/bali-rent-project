@@ -65,7 +65,7 @@ class _RegisterMainState extends State<RegisterMain> {
               color: Colors.grey.withOpacity(0.3),
               spreadRadius: 1,
               blurRadius: 11,
-              offset: Offset(6, 4), // changes position of shadow
+              offset: const Offset(6, 4), // changes position of shadow
             ),
           ],
         ),
@@ -77,7 +77,7 @@ class _RegisterMainState extends State<RegisterMain> {
               onPressed: () {
                 context.pop();
               },
-              icon: Icon(
+              icon: const Icon(
                 Icons.arrow_back_ios,
                 color: Colors.black,
               ),
@@ -93,8 +93,8 @@ class _RegisterMainState extends State<RegisterMain> {
     return Container(
       height: MediaQuery.of(context).size.height,
       width: MediaQuery.of(context).size.width,
-      padding: EdgeInsets.symmetric(horizontal: 61),
-      decoration: BoxDecoration(
+      padding: const EdgeInsets.symmetric(horizontal: 61),
+      decoration: const BoxDecoration(
         image: DecorationImage(
           image: AssetImage('assets/images/login-register-frame-design.png'),
           fit: BoxFit.fill,
@@ -104,7 +104,7 @@ class _RegisterMainState extends State<RegisterMain> {
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text.rich(
+          const Text.rich(
             TextSpan(
               style: TextStyle(fontSize: 24),
               children: [
@@ -113,7 +113,7 @@ class _RegisterMainState extends State<RegisterMain> {
               ],
             ),
           ),
-          SizedBox(
+          const SizedBox(
             height: 40,
           ),
           Form(
@@ -265,7 +265,7 @@ class _RegisterMainState extends State<RegisterMain> {
                       return null;
                     },
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 30,
                   ),
                   Container(
