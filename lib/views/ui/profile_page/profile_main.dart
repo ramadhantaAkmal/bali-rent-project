@@ -1,117 +1,147 @@
 import 'package:bali_rent/style.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class ProfileMain extends StatelessWidget {
   const ProfileMain({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Column(
-        children: [
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 38),
-            child: Row(
-              children: [
-                Container(
-                  decoration: const BoxDecoration(
-                    color: Colors.white,
-                    shape: BoxShape.circle,
-                    boxShadow: [
-                      BoxShadow(
-                        offset: Offset(
-                          4,
-                          9,
-                        ),
-                        blurRadius: 12,
-                        color: Colors.black45,
-                        spreadRadius: 1,
-                      )
-                    ],
-                  ),
-                  child: const CircleAvatar(
-                    radius: 45,
-                    backgroundImage: AssetImage('assets/images/emptypp.jpg'),
-                  ),
-                ),
-                const SizedBox(
-                  width: 40,
-                ),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: const [
-                    Text(
-                      'M Akmal R',
-                      style: TextStyle(
-                        color: primaryColor,
-                        fontSize: 16,
+    return Scaffold(
+      extendBodyBehindAppBar: true,
+      appBar: _buildAppBarr(context),
+      body: _buildBody(context),
+      backgroundColor: themeColor,
+    );
+  }
+
+  AppBar _buildAppBarr(BuildContext context) {
+    return AppBar(
+      elevation: 0,
+      automaticallyImplyLeading: false,
+      actions: [
+        TextButton(
+          onPressed: () async {
+            SharedPreferences preferences =
+                await SharedPreferences.getInstance();
+            await preferences.clear();
+            context.pushReplacement('/');
+          },
+          child: Text(
+            'Sign Out',
+            style: TextStyle(
+              color: primaryColor,
+            ),
+          ),
+        )
+      ],
+      backgroundColor: Colors.transparent,
+    );
+  }
+
+  Widget _buildBody(BuildContext context) {
+    return Column(
+      children: [
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 38),
+          child: Row(
+            children: [
+              Container(
+                decoration: const BoxDecoration(
+                  color: Colors.white,
+                  shape: BoxShape.circle,
+                  boxShadow: [
+                    BoxShadow(
+                      offset: Offset(
+                        4,
+                        9,
                       ),
-                    ),
-                    SizedBox(
-                      height: 10,
-                    ),
-                    Text('+62xxxxxxxx'),
+                      blurRadius: 12,
+                      color: Colors.black45,
+                      spreadRadius: 1,
+                    )
                   ],
+                ),
+                child: const CircleAvatar(
+                  radius: 45,
+                  backgroundImage: AssetImage('assets/images/emptypp.jpg'),
+                ),
+              ),
+              const SizedBox(
+                width: 40,
+              ),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: const [
+                  Text(
+                    'M Akmal R',
+                    style: TextStyle(
+                      color: primaryColor,
+                      fontSize: 16,
+                    ),
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Text('+62xxxxxxxx'),
+                ],
+              ),
+            ],
+          ),
+        ),
+        const SizedBox(
+          height: 10,
+        ),
+        Expanded(
+          child: Container(
+            height: MediaQuery.of(context).size.height,
+            width: MediaQuery.of(context).size.width,
+            decoration: const BoxDecoration(
+              // color: Colors.white,
+              borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(25), topRight: Radius.circular(25)),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.grey,
+                ),
+                BoxShadow(
+                  color: Colors.white,
+                  spreadRadius: 0,
+                  blurRadius: 4.0,
+                  offset: Offset(
+                    0,
+                    4.0,
+                  ),
                 ),
               ],
             ),
-          ),
-          const SizedBox(
-            height: 10,
-          ),
-          Expanded(
-            child: Container(
-              height: MediaQuery.of(context).size.height,
-              width: MediaQuery.of(context).size.width,
-              decoration: const BoxDecoration(
-                // color: Colors.white,
-                borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(25),
-                    topRight: Radius.circular(25)),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.grey,
-                  ),
-                  BoxShadow(
-                    color: Colors.white,
-                    spreadRadius: 0,
-                    blurRadius: 4.0,
-                    offset: Offset(
-                      0,
-                      4.0,
-                    ),
-                  ),
-                ],
+            child: Padding(
+              padding: const EdgeInsets.symmetric(
+                vertical: 50,
+                horizontal: 30,
               ),
-              child: Padding(
-                padding: const EdgeInsets.symmetric(
-                  vertical: 50,
-                  horizontal: 30,
-                ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    _rowMenuBuilder(
-                        context, 'Edit Profile', Icons.person_rounded, () {
-                      context.push('/homescreen/editprofile');
-                    }),
-                    const Divider(height: 20, thickness: 1),
-                    _rowMenuBuilder(context, 'Change Password', Icons.lock, () {
-                      context.push('/homescreen/changepass');
-                    }),
-                    const Divider(height: 20, thickness: 1),
-                    _rowMenuBuilder(context, 'About Us', Icons.info_rounded,
-                        () {
-                      context.push('/homescreen/about');
-                    }),
-                  ],
-                ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  _rowMenuBuilder(context, 'Edit Profile', Icons.person_rounded,
+                      () {
+                    context.push('/homescreen/editprofile');
+                  }),
+                  const Divider(height: 20, thickness: 1),
+                  _rowMenuBuilder(context, 'Change Password', Icons.lock, () {
+                    context.push('/homescreen/changepass');
+                  }),
+                  const Divider(height: 20, thickness: 1),
+                  _rowMenuBuilder(context, 'About Us', Icons.info_rounded, () {
+                    context.push('/homescreen/about');
+                  }),
+                ],
               ),
             ),
           ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 

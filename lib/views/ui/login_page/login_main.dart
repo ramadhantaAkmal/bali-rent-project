@@ -1,6 +1,11 @@
+import 'dart:convert';
+
 import 'package:bali_rent/style.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
+import '../../../fetchs/user_fetch.dart';
 
 class LoginMain extends StatefulWidget {
   const LoginMain({super.key});
@@ -160,9 +165,6 @@ class _LoginMainState extends State<LoginMain> {
                               : Icons.visibility,
                         ),
                       ),
-                      // The MaterialStateProperty's value is a text style that is orange
-                      // by default, but the theme's error color if the input decorator
-                      // is in its error state.
                       floatingLabelStyle: MaterialStateTextStyle.resolveWith(
                           (Set<MaterialState> states) {
                         final Color color = states.contains(MaterialState.error)
@@ -186,7 +188,19 @@ class _LoginMainState extends State<LoginMain> {
                     padding: const EdgeInsets.symmetric(horizontal: 35),
                     margin: const EdgeInsets.symmetric(vertical: 10),
                     child: MaterialButton(
-                      onPressed: () {},
+                      onPressed: () async {
+                        final result = await UserApi.userLogin(
+                            _usernameController.text, _passwordController.text);
+
+                        if (result is String) {
+                          print(result);
+                        } else {
+                          SharedPreferences pref =
+                              await SharedPreferences.getInstance();
+                          await pref.setString('token', jsonEncode(result));
+                          context.pushReplacement('/homescreen');
+                        }
+                      },
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(30.0),
                       ),

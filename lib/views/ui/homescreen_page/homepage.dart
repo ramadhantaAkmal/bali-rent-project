@@ -1,12 +1,43 @@
+import 'dart:convert';
+
 import 'package:bali_rent/style.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'homescreen_widget/brand_card.dart';
 import 'homescreen_widget/car_card.dart';
 
-class Homepage extends StatelessWidget {
+class Homepage extends StatefulWidget {
   const Homepage({super.key});
+
+  @override
+  State<Homepage> createState() => _HomepageState();
+}
+
+class _HomepageState extends State<Homepage> {
+  bool _login = true;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    SharedPreferences.getInstance().then(
+      (pref) {
+        var token = json.decode(pref.getString("token")!);
+        if (token != null) {
+          setLogin();
+        }
+      },
+    );
+    super.initState();
+  }
+
+  void setLogin() {
+    print('test');
+    setState(() {
+      _login = false;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -28,17 +59,19 @@ class Homepage extends StatelessWidget {
                     fontSize: 42,
                   ),
                 ),
-                TextButton(
-                  onPressed: () {
-                    context.push('/homescreen/login');
-                  },
-                  child: const Text(
-                    'Sign In',
-                    style: TextStyle(
-                      color: primaryColor,
-                    ),
-                  ),
-                ),
+                _login
+                    ? TextButton(
+                        onPressed: () {
+                          context.push('/homescreen/login');
+                        },
+                        child: const Text(
+                          'Sign In',
+                          style: TextStyle(
+                            color: primaryColor,
+                          ),
+                        ),
+                      )
+                    : SizedBox(),
               ],
             ),
           ),

@@ -1,3 +1,5 @@
+import 'package:bali_rent/fetchs/user_fetch.dart';
+import 'package:bali_rent/models/user_model.dart';
 import 'package:bali_rent/style.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -35,6 +37,45 @@ class _RegisterMainState extends State<RegisterMain> {
     _phoneNumController.dispose();
     _emailController.dispose();
     super.dispose();
+  }
+
+  void _register({
+    required String nama,
+    required String email,
+    required String phoneNumber,
+    required String username,
+    required String password,
+  }) async {
+    UserModel user = UserModel(
+      nama: nama,
+      email: email,
+      phoneNumber: phoneNumber,
+      username: username,
+      password: password,
+    );
+    var result = await UserApi.userRegister(user);
+    if (result is String) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(result),
+          backgroundColor: primaryColor,
+          behavior: SnackBarBehavior.floating,
+          margin: EdgeInsets.only(bottom: 30, right: 20, left: 20),
+          showCloseIcon: true,
+        ),
+      );
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(result),
+          backgroundColor: primaryColor,
+          behavior: SnackBarBehavior.floating,
+          margin: EdgeInsets.only(bottom: 30, right: 20, left: 20),
+          showCloseIcon: true,
+        ),
+      );
+      context.pop();
+    }
   }
 
   @override
@@ -273,7 +314,15 @@ class _RegisterMainState extends State<RegisterMain> {
                     padding: const EdgeInsets.symmetric(horizontal: 35),
                     margin: const EdgeInsets.symmetric(vertical: 10),
                     child: MaterialButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        _register(
+                          nama: _nameController.text,
+                          email: _emailController.text,
+                          phoneNumber: _phoneNumController.text,
+                          username: _usernameController.text,
+                          password: _passwordController.text,
+                        );
+                      },
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(30.0),
                       ),
