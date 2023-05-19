@@ -28,9 +28,7 @@ class WelcomeMain extends StatelessWidget {
           const Text(
             "Bali Rent",
             style: TextStyle(
-                fontFamily: 'IslandMoments',
-                fontSize: 108,
-                color: secondaryColor),
+                fontFamily: 'IslandMoments', fontSize: 108, color: titleColor),
           ),
           const Spacer(
             flex: 3,
@@ -56,7 +54,7 @@ class WelcomeMain extends StatelessWidget {
                 shape: MaterialStateProperty.all(
                   RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(30.0),
-                    side: const BorderSide(color: secondaryColor),
+                    side: const BorderSide(color: titleColor),
                   ),
                 ),
               ),

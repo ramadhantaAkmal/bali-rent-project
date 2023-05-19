@@ -57,6 +57,7 @@ class CarListMain extends StatelessWidget {
 
   Widget _buildBody(BuildContext context) {
     return Container(
+      color: backgroundColor,
       padding: const EdgeInsets.all(10.0),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -69,21 +70,21 @@ class CarListMain extends StatelessWidget {
                   margin: const EdgeInsets.all(16),
                   child: const TextField(
                     decoration: InputDecoration(
-                      fillColor: secondaryColor,
-                      prefixIconColor: secondaryColor,
+                      fillColor: themeColor,
+                      prefixIconColor: themeColor,
                       prefixIcon: Icon(Icons.search),
                       hintText: 'Search Car ...',
                       focusedBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.all(
                           Radius.circular(10),
                         ),
-                        borderSide: BorderSide(color: secondaryColor),
+                        borderSide: BorderSide(color: themeColor),
                       ),
                       enabledBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.all(
                           Radius.circular(10),
                         ),
-                        borderSide: BorderSide(color: secondaryColor),
+                        borderSide: BorderSide(color: themeColor),
                       ),
                     ),
                   ),
@@ -102,7 +103,7 @@ class CarListMain extends StatelessWidget {
                     fixedSize: const Size(73, 40),
                     side: const BorderSide(
                       strokeAlign: 10,
-                      color: secondaryColor,
+                      color: themeColor,
                     ),
                   ),
                   onPressed: () {},

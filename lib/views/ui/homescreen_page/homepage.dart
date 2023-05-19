@@ -54,7 +54,7 @@ class _HomepageState extends State<Homepage> {
                 const Text(
                   "Bali Rent",
                   style: TextStyle(
-                    color: primaryColor,
+                    color: titleColor,
                     fontFamily: 'IslandMoments',
                     fontSize: 42,
                   ),
@@ -67,7 +67,7 @@ class _HomepageState extends State<Homepage> {
                         child: const Text(
                           'Sign In',
                           style: TextStyle(
-                            color: primaryColor,
+                            color: secondaryColor,
                           ),
                         ),
                       )
@@ -80,7 +80,7 @@ class _HomepageState extends State<Homepage> {
             child: Text(
               "Find Your Favorite Vehicle.",
               style: TextStyle(
-                  color: primaryColor,
+                  color: secondaryColor,
                   fontFamily: 'NotoSans',
                   fontSize: 32,
                   fontWeight: FontWeight.w500),
@@ -95,7 +95,6 @@ class _HomepageState extends State<Homepage> {
               height: MediaQuery.of(context).size.height,
               width: MediaQuery.of(context).size.width,
               decoration: const BoxDecoration(
-                // color: Colors.white,
                 borderRadius: BorderRadius.only(
                     topLeft: Radius.circular(25),
                     topRight: Radius.circular(25)),
@@ -104,7 +103,7 @@ class _HomepageState extends State<Homepage> {
                     color: Colors.grey,
                   ),
                   BoxShadow(
-                    color: Colors.white,
+                    color: backgroundColor,
                     spreadRadius: 0,
                     blurRadius: 4.0,
                     offset: Offset(

@@ -26,7 +26,7 @@ class OrdersMain extends StatelessWidget {
       title: const Text(
         'Order History',
         style: TextStyle(
-          color: primaryColor,
+          color: secondaryColor,
           fontWeight: FontWeight.w500,
         ),
       ),
@@ -50,6 +50,7 @@ class OrdersMain extends StatelessWidget {
           labelColor: primaryColor,
           unselectedLabelColor: Colors.black,
           dividerColor: primaryColor,
+          indicatorColor: primaryColor,
           padding: EdgeInsets.only(top: 18, left: 13, right: 30),
           labelStyle: TextStyle(overflow: TextOverflow.visible),
           unselectedLabelStyle: TextStyle(

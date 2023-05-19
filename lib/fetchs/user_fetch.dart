@@ -141,7 +141,7 @@ class UserApi {
           body: jsonEncode(requestBody),
         );
       } else {
-        File imageFile = File(imgFile!.path);
+        File imageFile = File(imgFile.path);
 
         final imageBytes = await imageFile.readAsBytes();
 

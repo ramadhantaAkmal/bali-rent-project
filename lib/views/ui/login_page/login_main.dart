@@ -112,7 +112,7 @@ class _LoginMainState extends ConsumerState<LoginMain> {
       decoration: const BoxDecoration(
         image: DecorationImage(
           image: AssetImage('assets/images/login-register-frame-design.png'),
-          fit: BoxFit.fill,
+          fit: BoxFit.cover,
         ),
       ),
       child: Column(
@@ -142,7 +142,16 @@ class _LoginMainState extends ConsumerState<LoginMain> {
                   ),
                   TextFormField(
                     controller: _usernameController,
+                    cursorColor: primaryColor,
                     decoration: InputDecoration(
+                      enabledBorder: const OutlineInputBorder(
+                          borderSide: BorderSide(
+                        color: primaryColor,
+                      )),
+                      focusedBorder: const OutlineInputBorder(
+                          borderSide: BorderSide(
+                        color: primaryColor,
+                      )),
                       border: const OutlineInputBorder(),
                       labelText: 'Username',
                       // The MaterialStateProperty's value is a text style that is orange
@@ -169,7 +178,17 @@ class _LoginMainState extends ConsumerState<LoginMain> {
                   TextFormField(
                     controller: _passwordController,
                     obscureText: _isHiddenPass,
+                    cursorColor: primaryColor,
                     decoration: InputDecoration(
+                      suffixIconColor: primaryColor,
+                      enabledBorder: const OutlineInputBorder(
+                          borderSide: BorderSide(
+                        color: primaryColor,
+                      )),
+                      focusedBorder: const OutlineInputBorder(
+                          borderSide: BorderSide(
+                        color: primaryColor,
+                      )),
                       border: const OutlineInputBorder(),
                       labelText: 'Password',
                       suffixIcon: InkWell(
@@ -213,7 +232,7 @@ class _LoginMainState extends ConsumerState<LoginMain> {
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(30.0),
                       ),
-                      color: Colors.blueAccent,
+                      color: primaryColor,
                       child: const Text(
                         'SIGN IN',
                         style: TextStyle(

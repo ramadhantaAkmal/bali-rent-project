@@ -83,10 +83,10 @@ class _RegisterMainState extends State<RegisterMain> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      resizeToAvoidBottomInset: false,
       extendBodyBehindAppBar: true,
       appBar: _buildAppBar(context),
       body: _buildBody(context),
+      resizeToAvoidBottomInset: true,
     );
   }
 
@@ -147,198 +147,260 @@ class _RegisterMainState extends State<RegisterMain> {
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text.rich(
-            TextSpan(
-              style: TextStyle(fontSize: 24),
-              children: [
-                TextSpan(text: ' Sign ', style: TextStyle(color: primaryColor)),
-                TextSpan(text: 'Up', style: TextStyle(color: themeColor)),
-              ],
+          Spacer(
+            flex: 1,
+          ),
+          Flexible(
+            flex: 3,
+            child: Padding(
+              padding: const EdgeInsets.symmetric(vertical: 35),
+              child: const Text.rich(
+                TextSpan(
+                  style: TextStyle(fontSize: 24),
+                  children: [
+                    TextSpan(
+                        text: ' Sign ', style: TextStyle(color: primaryColor)),
+                    TextSpan(text: 'Up', style: TextStyle(color: themeColor)),
+                  ],
+                ),
+              ),
             ),
           ),
-          const SizedBox(
-            height: 40,
-          ),
-          Form(
-            key: formKey,
-            child: SingleChildScrollView(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  const SizedBox(
-                    height: 2,
-                  ),
-                  TextFormField(
-                    controller: _nameController,
-                    decoration: InputDecoration(
-                      border: const OutlineInputBorder(),
-                      labelText: 'Name',
-                      // The MaterialStateProperty's value is a text style that is orange
-                      // by default, but the theme's error color if the input decorator
-                      // is in its error state.
-                      floatingLabelStyle: MaterialStateTextStyle.resolveWith(
-                          (Set<MaterialState> states) {
-                        final Color color = states.contains(MaterialState.error)
-                            ? Theme.of(context).colorScheme.error
-                            : Colors.grey;
-                        return TextStyle(color: color, letterSpacing: 1.3);
-                      }),
+          Expanded(
+            flex: 7,
+            child: Form(
+              key: formKey,
+              child: SingleChildScrollView(
+                physics: const BouncingScrollPhysics(),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    const SizedBox(
+                      height: 2,
                     ),
-                    validator: (String? value) {
-                      if (value == null || value == '') {
-                        return 'Enter Name';
-                      }
-                      return null;
-                    },
-                  ),
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  TextFormField(
-                    controller: _phoneNumController,
-                    decoration: InputDecoration(
-                      border: const OutlineInputBorder(),
-                      labelText: 'Phone Number',
-                      // The MaterialStateProperty's value is a text style that is orange
-                      // by default, but the theme's error color if the input decorator
-                      // is in its error state.
-                      floatingLabelStyle: MaterialStateTextStyle.resolveWith(
-                          (Set<MaterialState> states) {
-                        final Color color = states.contains(MaterialState.error)
-                            ? Theme.of(context).colorScheme.error
-                            : Colors.grey;
-                        return TextStyle(color: color, letterSpacing: 1.3);
-                      }),
-                    ),
-                    validator: (String? value) {
-                      if (value == null || value == '') {
-                        return 'Enter Phone Number';
-                      }
-                      return null;
-                    },
-                  ),
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  TextFormField(
-                    controller: _emailController,
-                    decoration: InputDecoration(
-                      border: const OutlineInputBorder(),
-                      labelText: 'Email',
-                      // The MaterialStateProperty's value is a text style that is orange
-                      // by default, but the theme's error color if the input decorator
-                      // is in its error state.
-                      floatingLabelStyle: MaterialStateTextStyle.resolveWith(
-                          (Set<MaterialState> states) {
-                        final Color color = states.contains(MaterialState.error)
-                            ? Theme.of(context).colorScheme.error
-                            : Colors.grey;
-                        return TextStyle(color: color, letterSpacing: 1.3);
-                      }),
-                    ),
-                    validator: (String? value) {
-                      if (value == null || value == '') {
-                        return 'Enter Email';
-                      }
-                      return null;
-                    },
-                  ),
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  TextFormField(
-                    controller: _usernameController,
-                    decoration: InputDecoration(
-                      border: const OutlineInputBorder(),
-                      labelText: 'Username',
-                      // The MaterialStateProperty's value is a text style that is orange
-                      // by default, but the theme's error color if the input decorator
-                      // is in its error state.
-                      floatingLabelStyle: MaterialStateTextStyle.resolveWith(
-                          (Set<MaterialState> states) {
-                        final Color color = states.contains(MaterialState.error)
-                            ? Theme.of(context).colorScheme.error
-                            : Colors.grey;
-                        return TextStyle(color: color, letterSpacing: 1.3);
-                      }),
-                    ),
-                    validator: (String? value) {
-                      if (value == null || value == '') {
-                        return 'Enter Username';
-                      }
-                      return null;
-                    },
-                  ),
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  TextFormField(
-                    controller: _passwordController,
-                    obscureText: _isHiddenPass,
-                    decoration: InputDecoration(
-                      border: const OutlineInputBorder(),
-                      labelText: 'Password',
-                      // The MaterialStateProperty's value is a text style that is orange
-                      // by default, but the theme's error color if the input decorator
-                      // is in its error state.
-                      suffixIcon: InkWell(
-                        onTap: () {
-                          setState(() {
-                            _isHiddenPass = !_isHiddenPass;
-                          });
-                        },
-                        child: Icon(
-                          _isHiddenPass
-                              ? Icons.visibility_off
-                              : Icons.visibility,
-                        ),
+                    TextFormField(
+                      controller: _nameController,
+                      cursorColor: primaryColor,
+                      decoration: InputDecoration(
+                        enabledBorder: const OutlineInputBorder(
+                            borderSide: BorderSide(
+                          color: primaryColor,
+                        )),
+                        focusedBorder: const OutlineInputBorder(
+                            borderSide: BorderSide(
+                          color: primaryColor,
+                        )),
+                        border: const OutlineInputBorder(),
+                        labelText: 'Name',
+                        // The MaterialStateProperty's value is a text style that is orange
+                        // by default, but the theme's error color if the input decorator
+                        // is in its error state.
+                        floatingLabelStyle: MaterialStateTextStyle.resolveWith(
+                            (Set<MaterialState> states) {
+                          final Color color =
+                              states.contains(MaterialState.error)
+                                  ? Theme.of(context).colorScheme.error
+                                  : Colors.grey;
+                          return TextStyle(color: color, letterSpacing: 1.3);
+                        }),
                       ),
-                      floatingLabelStyle: MaterialStateTextStyle.resolveWith(
-                          (Set<MaterialState> states) {
-                        final Color color = states.contains(MaterialState.error)
-                            ? Theme.of(context).colorScheme.error
-                            : Colors.grey;
-                        return TextStyle(color: color, letterSpacing: 1.3);
-                      }),
-                    ),
-                    validator: (String? value) {
-                      if (value == null || value == '') {
-                        return 'Enter Password';
-                      }
-                      return null;
-                    },
-                  ),
-                  const SizedBox(
-                    height: 30,
-                  ),
-                  Container(
-                    height: 50,
-                    padding: const EdgeInsets.symmetric(horizontal: 35),
-                    margin: const EdgeInsets.symmetric(vertical: 10),
-                    child: MaterialButton(
-                      onPressed: () {
-                        _register(
-                          nama: _nameController.text,
-                          email: _emailController.text,
-                          phoneNumber: _phoneNumController.text,
-                          username: _usernameController.text,
-                          password: _passwordController.text,
-                        );
+                      validator: (String? value) {
+                        if (value == null || value == '') {
+                          return 'Enter Name';
+                        }
+                        return null;
                       },
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(30.0),
+                    ),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    TextFormField(
+                      controller: _phoneNumController,
+                      cursorColor: primaryColor,
+                      decoration: InputDecoration(
+                        enabledBorder: const OutlineInputBorder(
+                            borderSide: BorderSide(
+                          color: primaryColor,
+                        )),
+                        focusedBorder: const OutlineInputBorder(
+                            borderSide: BorderSide(
+                          color: primaryColor,
+                        )),
+                        border: const OutlineInputBorder(),
+                        labelText: 'Phone Number',
+                        // The MaterialStateProperty's value is a text style that is orange
+                        // by default, but the theme's error color if the input decorator
+                        // is in its error state.
+                        floatingLabelStyle: MaterialStateTextStyle.resolveWith(
+                            (Set<MaterialState> states) {
+                          final Color color =
+                              states.contains(MaterialState.error)
+                                  ? Theme.of(context).colorScheme.error
+                                  : Colors.grey;
+                          return TextStyle(color: color, letterSpacing: 1.3);
+                        }),
                       ),
-                      color: Colors.blueAccent,
-                      child: const Text(
-                        'SIGN UP',
-                        style: TextStyle(
-                          fontSize: 18,
-                          color: Colors.white,
+                      validator: (String? value) {
+                        if (value == null || value == '') {
+                          return 'Enter Phone Number';
+                        }
+                        return null;
+                      },
+                    ),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    TextFormField(
+                      controller: _emailController,
+                      cursorColor: primaryColor,
+                      decoration: InputDecoration(
+                        enabledBorder: const OutlineInputBorder(
+                            borderSide: BorderSide(
+                          color: primaryColor,
+                        )),
+                        focusedBorder: const OutlineInputBorder(
+                            borderSide: BorderSide(
+                          color: primaryColor,
+                        )),
+                        border: const OutlineInputBorder(),
+                        labelText: 'Email',
+                        // The MaterialStateProperty's value is a text style that is orange
+                        // by default, but the theme's error color if the input decorator
+                        // is in its error state.
+                        floatingLabelStyle: MaterialStateTextStyle.resolveWith(
+                            (Set<MaterialState> states) {
+                          final Color color =
+                              states.contains(MaterialState.error)
+                                  ? Theme.of(context).colorScheme.error
+                                  : Colors.grey;
+                          return TextStyle(color: color, letterSpacing: 1.3);
+                        }),
+                      ),
+                      validator: (String? value) {
+                        if (value == null || value == '') {
+                          return 'Enter Email';
+                        }
+                        return null;
+                      },
+                    ),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    TextFormField(
+                      controller: _usernameController,
+                      cursorColor: primaryColor,
+                      decoration: InputDecoration(
+                        enabledBorder: const OutlineInputBorder(
+                            borderSide: BorderSide(
+                          color: primaryColor,
+                        )),
+                        focusedBorder: const OutlineInputBorder(
+                            borderSide: BorderSide(
+                          color: primaryColor,
+                        )),
+                        border: const OutlineInputBorder(),
+                        labelText: 'Username',
+                        // The MaterialStateProperty's value is a text style that is orange
+                        // by default, but the theme's error color if the input decorator
+                        // is in its error state.
+                        floatingLabelStyle: MaterialStateTextStyle.resolveWith(
+                            (Set<MaterialState> states) {
+                          final Color color =
+                              states.contains(MaterialState.error)
+                                  ? Theme.of(context).colorScheme.error
+                                  : Colors.grey;
+                          return TextStyle(color: color, letterSpacing: 1.3);
+                        }),
+                      ),
+                      validator: (String? value) {
+                        if (value == null || value == '') {
+                          return 'Enter Username';
+                        }
+                        return null;
+                      },
+                    ),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    TextFormField(
+                      controller: _passwordController,
+                      cursorColor: primaryColor,
+                      obscureText: _isHiddenPass,
+                      decoration: InputDecoration(
+                        suffixIconColor: primaryColor,
+                        enabledBorder: const OutlineInputBorder(
+                            borderSide: BorderSide(
+                          color: primaryColor,
+                        )),
+                        focusedBorder: const OutlineInputBorder(
+                            borderSide: BorderSide(
+                          color: primaryColor,
+                        )),
+                        border: const OutlineInputBorder(),
+                        labelText: 'Password',
+                        // The MaterialStateProperty's value is a text style that is orange
+                        // by default, but the theme's error color if the input decorator
+                        // is in its error state.
+                        suffixIcon: InkWell(
+                          onTap: () {
+                            setState(() {
+                              _isHiddenPass = !_isHiddenPass;
+                            });
+                          },
+                          child: Icon(
+                            _isHiddenPass
+                                ? Icons.visibility_off
+                                : Icons.visibility,
+                          ),
+                        ),
+                        floatingLabelStyle: MaterialStateTextStyle.resolveWith(
+                            (Set<MaterialState> states) {
+                          final Color color =
+                              states.contains(MaterialState.error)
+                                  ? Theme.of(context).colorScheme.error
+                                  : Colors.grey;
+                          return TextStyle(color: color, letterSpacing: 1.3);
+                        }),
+                      ),
+                      validator: (String? value) {
+                        if (value == null || value == '') {
+                          return 'Enter Password';
+                        }
+                        return null;
+                      },
+                    ),
+                    const SizedBox(
+                      height: 30,
+                    ),
+                    Container(
+                      height: 50,
+                      padding: const EdgeInsets.symmetric(horizontal: 35),
+                      margin: const EdgeInsets.symmetric(vertical: 10),
+                      child: MaterialButton(
+                        onPressed: () {
+                          _register(
+                            nama: _nameController.text,
+                            email: _emailController.text,
+                            phoneNumber: _phoneNumController.text,
+                            username: _usernameController.text,
+                            password: _passwordController.text,
+                          );
+                        },
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(30.0),
+                        ),
+                        color: primaryColor,
+                        child: const Text(
+                          'SIGN UP',
+                          style: TextStyle(
+                            fontSize: 18,
+                            color: Colors.white,
+                          ),
                         ),
                       ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
           ),

@@ -45,10 +45,10 @@ class _ProfileMainState extends ConsumerState<ProfileMain> {
             await preferences.clear();
             context.pushReplacement('/');
           },
-          child: Text(
+          child: const Text(
             'Sign Out',
             style: TextStyle(
-              color: primaryColor,
+              color: secondaryColor,
             ),
           ),
         )
@@ -95,15 +95,18 @@ class _ProfileMainState extends ConsumerState<ProfileMain> {
                 children: [
                   Text(
                     user.nama,
-                    style: TextStyle(
-                      color: primaryColor,
+                    style: const TextStyle(
+                      color: secondaryColor,
                       fontSize: 16,
                     ),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 10,
                   ),
-                  Text(user.phoneNumber),
+                  Text(
+                    user.phoneNumber,
+                    style: const TextStyle(color: secondaryColor),
+                  ),
                 ],
               ),
             ],
@@ -117,7 +120,6 @@ class _ProfileMainState extends ConsumerState<ProfileMain> {
             height: MediaQuery.of(context).size.height,
             width: MediaQuery.of(context).size.width,
             decoration: const BoxDecoration(
-              // color: Colors.white,
               borderRadius: BorderRadius.only(
                   topLeft: Radius.circular(25), topRight: Radius.circular(25)),
               boxShadow: [
@@ -125,7 +127,7 @@ class _ProfileMainState extends ConsumerState<ProfileMain> {
                   color: Colors.grey,
                 ),
                 BoxShadow(
-                  color: Colors.white,
+                  color: backgroundColor,
                   spreadRadius: 0,
                   blurRadius: 4.0,
                   offset: Offset(

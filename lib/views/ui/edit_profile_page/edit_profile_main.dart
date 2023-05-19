@@ -38,7 +38,6 @@ class _EditProfileMainState extends ConsumerState<EditProfileMain> {
   void initState() {
     super.initState();
     ref.read(userProvider);
-    // final UserModel userRef = ref.watch(userProvider);
     _usernameController = TextEditingController();
     _passwordController = TextEditingController();
     _nameController = TextEditingController();
@@ -201,7 +200,7 @@ class _EditProfileMainState extends ConsumerState<EditProfileMain> {
               children: [
                 Container(
                   decoration: const BoxDecoration(
-                    color: Colors.white,
+                    color: backgroundColor,
                     shape: BoxShape.circle,
                     boxShadow: [
                       BoxShadow(
@@ -251,7 +250,7 @@ class _EditProfileMainState extends ConsumerState<EditProfileMain> {
                     const Text(
                       'Edit Profile Picture',
                       style: TextStyle(
-                        color: primaryColor,
+                        color: secondaryColor,
                         fontSize: 16,
                       ),
                     ),
@@ -268,7 +267,6 @@ class _EditProfileMainState extends ConsumerState<EditProfileMain> {
               height: MediaQuery.of(context).size.height,
               width: MediaQuery.of(context).size.width,
               decoration: const BoxDecoration(
-                // color: Colors.white,
                 borderRadius: BorderRadius.only(
                     topLeft: Radius.circular(25),
                     topRight: Radius.circular(25)),
@@ -277,7 +275,7 @@ class _EditProfileMainState extends ConsumerState<EditProfileMain> {
                     color: Colors.grey,
                   ),
                   BoxShadow(
-                    color: Colors.white,
+                    color: backgroundColor,
                     spreadRadius: 0,
                     blurRadius: 4.0,
                     offset: Offset(
