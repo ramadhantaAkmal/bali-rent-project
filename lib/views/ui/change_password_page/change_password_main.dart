@@ -1,6 +1,10 @@
+import 'dart:convert';
+
+import 'package:bali_rent/fetchs/user_fetch.dart';
 import 'package:bali_rent/style.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class ChangePassMain extends StatefulWidget {
   const ChangePassMain({super.key});
@@ -54,6 +58,15 @@ class _ChangePassMainState extends State<ChangePassMain> {
       _isBtnDisabled = true;
       _isFieldEnabled = false;
     }
+  }
+
+  void _changePass(
+      String oldPass, String newPass, String confirmNewPass) async {
+    SharedPreferences pref = await SharedPreferences.getInstance();
+    var token = json.decode(pref.getString("token")!);
+    var result = await UserApi.userChangePass(
+        oldPass, newPass, confirmNewPass, token["id"]);
+    print(result);
   }
 
   AppBar _buildAppBar(BuildContext context) {
@@ -234,7 +247,15 @@ class _ChangePassMainState extends State<ChangePassMain> {
             padding: const EdgeInsets.symmetric(horizontal: 10),
             margin: const EdgeInsets.symmetric(vertical: 10),
             child: MaterialButton(
-              onPressed: _isBtnDisabled ? null : () {},
+              onPressed: _isBtnDisabled
+                  ? null
+                  : () {
+                      _changePass(
+                        _oldPasswordController.text,
+                        _newPasswordController.text,
+                        _repeatPasswordController.text,
+                      );
+                    },
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(10.0),
               ),

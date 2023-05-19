@@ -1,20 +1,22 @@
 import 'dart:convert';
 
 import 'package:bali_rent/style.dart';
+import 'package:bali_rent/viewmodel/user_providers.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../fetchs/user_fetch.dart';
 
-class LoginMain extends StatefulWidget {
+class LoginMain extends ConsumerStatefulWidget {
   const LoginMain({super.key});
 
   @override
-  State<LoginMain> createState() => _LoginMainState();
+  ConsumerState<LoginMain> createState() => _LoginMainState();
 }
 
-class _LoginMainState extends State<LoginMain> {
+class _LoginMainState extends ConsumerState<LoginMain> {
   late TextEditingController _usernameController;
   late TextEditingController _passwordController;
   final formKey = GlobalKey<FormState>();
@@ -24,6 +26,7 @@ class _LoginMainState extends State<LoginMain> {
     super.initState();
     _usernameController = TextEditingController();
     _passwordController = TextEditingController();
+    ref.read(userProvider);
   }
 
   @override
@@ -33,8 +36,24 @@ class _LoginMainState extends State<LoginMain> {
     super.dispose();
   }
 
+  void _login() async {
+    final result = await UserApi.userLogin(
+        _usernameController.text, _passwordController.text);
+
+    // print(result);
+    if (result is String) {
+      print(result);
+    } else {
+      SharedPreferences pref = await SharedPreferences.getInstance();
+      await pref.setString('token', jsonEncode(result));
+      ref.read(userProvider.notifier).getUserData();
+      context.pushReplacement('/homescreen');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
+    var user = ref.watch(userProvider);
     return Scaffold(
       resizeToAvoidBottomInset: false,
       extendBodyBehindAppBar: true,
@@ -189,17 +208,7 @@ class _LoginMainState extends State<LoginMain> {
                     margin: const EdgeInsets.symmetric(vertical: 10),
                     child: MaterialButton(
                       onPressed: () async {
-                        final result = await UserApi.userLogin(
-                            _usernameController.text, _passwordController.text);
-
-                        if (result is String) {
-                          print(result);
-                        } else {
-                          SharedPreferences pref =
-                              await SharedPreferences.getInstance();
-                          await pref.setString('token', jsonEncode(result));
-                          context.pushReplacement('/homescreen');
-                        }
+                        _login();
                       },
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(30.0),

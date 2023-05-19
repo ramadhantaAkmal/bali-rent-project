@@ -24,6 +24,7 @@ class _HomepageState extends State<Homepage> {
     SharedPreferences.getInstance().then(
       (pref) {
         var token = json.decode(pref.getString("token")!);
+
         if (token != null) {
           setLogin();
         }
@@ -33,7 +34,6 @@ class _HomepageState extends State<Homepage> {
   }
 
   void setLogin() {
-    print('test');
     setState(() {
       _login = false;
     });

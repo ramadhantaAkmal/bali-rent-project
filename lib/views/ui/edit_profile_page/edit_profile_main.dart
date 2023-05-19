@@ -1,15 +1,26 @@
+import 'dart:convert';
+import 'dart:io';
+
+import 'package:bali_rent/fetchs/user_fetch.dart';
 import 'package:bali_rent/style.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-class EditProfileMain extends StatefulWidget {
+import '../../../models/user_models/user.dart';
+import '../../../viewmodel/user_providers.dart';
+
+class EditProfileMain extends ConsumerStatefulWidget {
   const EditProfileMain({super.key});
 
   @override
-  State<EditProfileMain> createState() => _EditProfileMainState();
+  ConsumerState<EditProfileMain> createState() => _EditProfileMainState();
 }
 
-class _EditProfileMainState extends State<EditProfileMain> {
+class _EditProfileMainState extends ConsumerState<EditProfileMain> {
   late TextEditingController _usernameController;
   late TextEditingController _passwordController;
   late TextEditingController _nameController;
@@ -17,14 +28,29 @@ class _EditProfileMainState extends State<EditProfileMain> {
   late TextEditingController _emailController;
   final formKey = GlobalKey<FormState>();
 
+  XFile? _imageFile;
+  ImageProvider? _imagePicked;
+  final ImagePicker _picker = ImagePicker();
+
+  bool _isHiddenPass = true;
+
   @override
   void initState() {
     super.initState();
+    ref.read(userProvider);
+    // final UserModel userRef = ref.watch(userProvider);
     _usernameController = TextEditingController();
     _passwordController = TextEditingController();
     _nameController = TextEditingController();
     _phoneNumController = TextEditingController();
     _emailController = TextEditingController();
+    SchedulerBinding.instance.addPostFrameCallback((_) {
+      final userRef = ref.read(userProvider);
+      _usernameController.text = userRef.username;
+      _nameController.text = userRef.nama;
+      _phoneNumController.text = userRef.phoneNumber;
+      _emailController.text = userRef.email;
+    });
   }
 
   @override
@@ -37,15 +63,89 @@ class _EditProfileMainState extends State<EditProfileMain> {
     super.dispose();
   }
 
-  bool _isHiddenPass = true;
+  void _takePhoto() {
+    showModalBottomSheet(
+        context: context,
+        builder: (BuildContext context) {
+          return SizedBox(
+            height: 150,
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Column(children: [
+                InkWell(
+                  onTap: () async {
+                    _imageFile =
+                        await _picker.pickImage(source: ImageSource.camera);
+                    setState(() {});
+                  },
+                  child: Container(
+                    height: 50,
+                    child: Row(
+                      children: [
+                        Icon(Icons.photo_camera),
+                        Text(' Take picture from Camera '),
+                      ],
+                    ),
+                  ),
+                ),
+                Divider(),
+                InkWell(
+                  onTap: () async {
+                    _imageFile =
+                        await _picker.pickImage(source: ImageSource.gallery);
+                    setState(() {});
+                  },
+                  child: Container(
+                    height: 50,
+                    child: Row(
+                      children: [
+                        Icon(Icons.photo_library),
+                        Text(' Browse from gallery '),
+                      ],
+                    ),
+                  ),
+                ),
+              ]),
+            ),
+          );
+        });
+  }
+
+  void _updateProfile(String nama, String email, String phoneNumber,
+      String username, String password, XFile? imgFile) async {
+    try {
+      if (password != "") {
+        SharedPreferences pref = await SharedPreferences.getInstance();
+        var token = json.decode(pref.getString("token")!);
+        UserModel user = UserModel(
+          nama: nama,
+          email: email,
+          phoneNumber: phoneNumber,
+          profilePicture: "",
+          username: username,
+          password: password,
+        );
+        var result = await UserApi.userUpdate(user, imgFile, token["id"]);
+        print(result);
+      }
+    } catch (e) {
+      print(e);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
+    final UserModel userRef = ref.watch(userProvider);
+    if (_imageFile == null) {
+      _imagePicked = NetworkImage(userRef.profilePicture);
+    } else {
+      _imagePicked = FileImage(File(_imageFile!.path));
+    }
     return Scaffold(
       extendBodyBehindAppBar: true,
       backgroundColor: themeColor,
       appBar: _buildAppBar(context),
-      body: _buildBody(context),
+      body: _buildBody(context, userRef),
       resizeToAvoidBottomInset: true,
     );
   }
@@ -90,7 +190,7 @@ class _EditProfileMainState extends State<EditProfileMain> {
     );
   }
 
-  Widget _buildBody(BuildContext context) {
+  Widget _buildBody(BuildContext context, UserModel userRef) {
     return SafeArea(
       child: Column(
         children: [
@@ -115,9 +215,9 @@ class _EditProfileMainState extends State<EditProfileMain> {
                       )
                     ],
                   ),
-                  child: const CircleAvatar(
+                  child: CircleAvatar(
                     radius: 35,
-                    backgroundImage: AssetImage('assets/images/emptypp.jpg'),
+                    backgroundImage: _imagePicked,
                   ),
                 ),
                 const SizedBox(
@@ -139,7 +239,9 @@ class _EditProfileMainState extends State<EditProfileMain> {
                           ),
                         ),
                         IconButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            _takePhoto();
+                          },
                           icon: const Icon(Icons.mode_edit_outline),
                           splashRadius: 17,
                           color: primaryColor,
@@ -363,7 +465,17 @@ class _EditProfileMainState extends State<EditProfileMain> {
                           padding: const EdgeInsets.symmetric(horizontal: 35),
                           margin: const EdgeInsets.symmetric(vertical: 10),
                           child: MaterialButton(
-                            onPressed: () {},
+                            onPressed: () {
+                              _updateProfile(
+                                _nameController.text,
+                                _emailController.text,
+                                _phoneNumController.text,
+                                _usernameController.text,
+                                _passwordController.text,
+                                _imageFile,
+                              );
+                              context.pushReplacement('/homescreen');
+                            },
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(30.0),
                             ),

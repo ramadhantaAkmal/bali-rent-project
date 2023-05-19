@@ -1,14 +1,18 @@
 import 'dart:convert';
+import 'dart:developer';
+import 'dart:io';
 import 'package:http/http.dart' as http;
+import 'package:http_parser/http_parser.dart';
+import 'package:image_picker/image_picker.dart';
 
-import '../models/user_model.dart';
+import '../models/user_models/user.dart';
 
 class UserApi {
   static const String url = 'http://10.0.2.2:3000/api/users';
 
-  static getuser(int userId) async {
+  static getuser(dynamic userId) async {
     try {
-      Uri a = Uri.parse('$url/$userId');
+      Uri a = Uri.parse('$url/detail/$userId');
       final response = await http.get(a);
       if (response.statusCode == 200) {
         // If the server did return a 201 CREATED response,
@@ -19,7 +23,7 @@ class UserApi {
         // If the server did not return a 201 CREATED response,
         // then throw an exception.
         final statusCode = response.statusCode;
-        return "error status code: $statusCode";
+        return "test";
       }
     } catch (e) {
       return "error";
@@ -39,13 +43,9 @@ class UserApi {
       );
 
       if (response.statusCode == 200) {
-        // If the server did return a 201 CREATED response,
-        // then parse the JSON.
         final body = json.decode(response.body);
         return body;
       } else {
-        // If the server did not return a 201 CREATED response,
-        // then throw an exception.
         final statusCode = response.statusCode;
         return "error status code: $statusCode";
       }
@@ -71,21 +71,107 @@ class UserApi {
         }),
       );
       if (response.statusCode == 201) {
-        // If the server did return a 201 CREATED response,
-        // then parse the JSON.
-
         return "New Account has been created";
       } else {
-        // If the server did not return a 201 CREATED response,
-        // then throw an exception.
         final statusCode = response.statusCode;
         final body = json.decode(response.body);
         final message = body["message"];
-        print("error code: $statusCode");
+        log("error code: $statusCode");
         return message;
       }
     } catch (e) {
       return "error";
+    }
+  }
+
+  static userChangePass(
+      String oldPass, String newPass, String confirmNewPass, int id) async {
+    try {
+      String userId = id.toString();
+      String changePass = '$url/changePassword/$userId';
+      final response = await http.put(
+        Uri.parse(changePass),
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+        },
+        body: jsonEncode(<String, String>{
+          'newPassword': newPass,
+          'confirmPassword': confirmNewPass,
+          'password': oldPass
+        }),
+      );
+
+      if (response.statusCode == 200) {
+        final body = json.decode(response.body);
+        final message = body["message"];
+        return message;
+      } else {
+        final statusCode = response.statusCode;
+        final body = json.decode(response.body);
+        final message = body["message"];
+        log("error code: $statusCode");
+        return message;
+      }
+    } catch (e) {
+      return e;
+    }
+  }
+
+  static userUpdate(UserModel user, XFile? imgFile, int id) async {
+    try {
+      String userId = id.toString();
+      String updateURL = '$url/$userId';
+      final uri = Uri.parse(updateURL);
+
+      final requestBody = <String, String>{
+        'name': user.nama,
+        'username': user.username,
+        'email': user.email,
+        'phoneNumber': user.phoneNumber,
+      };
+
+      http.BaseResponse response;
+      if (imgFile == null) {
+        final headers = <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+        };
+        response = await http.put(
+          uri,
+          headers: headers,
+          body: jsonEncode(requestBody),
+        );
+      } else {
+        File imageFile = File(imgFile!.path);
+
+        final imageBytes = await imageFile.readAsBytes();
+
+        // Create a multipart request
+        var request = http.MultipartRequest('PUT', uri);
+
+        // Add the image file to the request
+        request.files.add(http.MultipartFile.fromBytes(
+          'profilePicture',
+          imageBytes,
+          filename: 'image.jpg',
+          contentType: MediaType('image', 'jpeg'),
+        ));
+
+        request.fields.addAll(requestBody);
+        // Send the request
+        response = await request.send();
+      }
+
+      if (response.statusCode == 200) {
+        final statusCode = response.statusCode;
+        log("http code: $statusCode");
+        return "Update Success";
+      }
+
+      final statusCode = response.statusCode;
+      log("error code: $statusCode");
+      return "Update Success";
+    } catch (e) {
+      return e;
     }
   }
 }

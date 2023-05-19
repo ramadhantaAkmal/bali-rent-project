@@ -1,22 +1,39 @@
+import 'package:bali_rent/models/user_models/user.dart';
 import 'package:bali_rent/style.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class ProfileMain extends StatelessWidget {
+import '../../../viewmodel/user_providers.dart';
+
+class ProfileMain extends ConsumerStatefulWidget {
   const ProfileMain({super.key});
 
   @override
+  ConsumerState<ProfileMain> createState() => _ProfileMainState();
+}
+
+class _ProfileMainState extends ConsumerState<ProfileMain> {
+  @override
+  void initState() {
+    super.initState();
+    ref.read(userProvider);
+    ref.read(userProvider.notifier).getUserData();
+  }
+
+  @override
   Widget build(BuildContext context) {
+    final UserModel userRef = ref.watch(userProvider);
     return Scaffold(
       extendBodyBehindAppBar: true,
-      appBar: _buildAppBarr(context),
-      body: _buildBody(context),
+      appBar: _buildAppBar(context),
+      body: _buildBody(context, userRef),
       backgroundColor: themeColor,
     );
   }
 
-  AppBar _buildAppBarr(BuildContext context) {
+  AppBar _buildAppBar(BuildContext context) {
     return AppBar(
       elevation: 0,
       automaticallyImplyLeading: false,
@@ -40,11 +57,12 @@ class ProfileMain extends StatelessWidget {
     );
   }
 
-  Widget _buildBody(BuildContext context) {
+  Widget _buildBody(BuildContext context, UserModel user) {
     return Column(
       children: [
         Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 38),
+          padding:
+              const EdgeInsets.only(bottom: 38, top: 70, right: 30, left: 30),
           child: Row(
             children: [
               Container(
@@ -63,9 +81,9 @@ class ProfileMain extends StatelessWidget {
                     )
                   ],
                 ),
-                child: const CircleAvatar(
+                child: CircleAvatar(
                   radius: 45,
-                  backgroundImage: AssetImage('assets/images/emptypp.jpg'),
+                  backgroundImage: NetworkImage(user.profilePicture),
                 ),
               ),
               const SizedBox(
@@ -73,9 +91,10 @@ class ProfileMain extends StatelessWidget {
               ),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
-                children: const [
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
                   Text(
-                    'M Akmal R',
+                    user.nama,
                     style: TextStyle(
                       color: primaryColor,
                       fontSize: 16,
@@ -84,7 +103,7 @@ class ProfileMain extends StatelessWidget {
                   SizedBox(
                     height: 10,
                   ),
-                  Text('+62xxxxxxxx'),
+                  Text(user.phoneNumber),
                 ],
               ),
             ],

@@ -1,8 +1,9 @@
 import 'package:bali_rent/fetchs/user_fetch.dart';
-import 'package:bali_rent/models/user_model.dart';
 import 'package:bali_rent/style.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+
+import '../../../models/user_models/user.dart';
 
 class RegisterMain extends StatefulWidget {
   const RegisterMain({super.key});
@@ -52,9 +53,10 @@ class _RegisterMainState extends State<RegisterMain> {
       phoneNumber: phoneNumber,
       username: username,
       password: password,
+      profilePicture: "",
     );
     var result = await UserApi.userRegister(user);
-    if (result is String) {
+    if (result == "New Account has been created") {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text(result),
