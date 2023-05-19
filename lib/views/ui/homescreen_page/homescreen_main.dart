@@ -6,6 +6,7 @@ import 'package:bali_rent/views/ui/profile_page/profile_main.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 
 import 'homepage.dart';
 
@@ -50,11 +51,16 @@ class _HomescreenMainState extends State<HomescreenMain> {
     } catch (_) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text('You need to login first'),
-          backgroundColor: primaryColor,
+          backgroundColor: Colors.transparent,
+          content: AwesomeSnackbarContent(
+            title: 'Sorry!',
+            message: 'You need to login first!',
+
+            /// change contentType to ContentType.success, ContentType.warning or ContentType.help for variants
+            contentType: ContentType.warning,
+          ),
           behavior: SnackBarBehavior.floating,
-          margin: EdgeInsets.only(bottom: 30, right: 20, left: 20),
-          showCloseIcon: true,
+          elevation: 0,
         ),
       );
       if (index != 0) {

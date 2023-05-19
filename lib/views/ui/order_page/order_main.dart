@@ -13,17 +13,42 @@ class OrderMain extends StatefulWidget {
 
 class _OrderMainState extends State<OrderMain> {
   dynamic _dateCount;
-  int _totalFare = 0;
-  final int _fare = 399000;
+
+  late int _totalFare;
+  late int _fare;
+  late int _totalFareConfirm;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    _fare = 399000;
+    _totalFare = _fare;
+    _totalFareConfirm = _totalFare;
+    super.initState();
+  }
 
   void _onSelectionChanged(DateRangePickerSelectionChangedArgs args) {
-    setState(() {
-      try {
-        dynamic to = args.value.endDate;
-        dynamic from = args.value.startDate;
-        _dateCount = (to.difference(from).inHours / 24).round() ?? 0;
+    try {
+      var to = args.value.endDate;
+      var from = args.value.startDate;
+      _dateCount = (to.difference(from).inHours / 24).round() ?? 0;
+      if (_dateCount > 0) {
         _totalFare = _dateCount * _fare;
-      } catch (_) {}
+      } else {
+        _totalFare = _fare;
+      }
+    } catch (_) {}
+  }
+
+  dynamic _onSubmit(Object? obj) {
+    setState(() {
+      _totalFareConfirm = _totalFare;
+    });
+  }
+
+  void _onCancel() {
+    setState(() {
+      _totalFare = _totalFareConfirm;
     });
   }
 
@@ -97,15 +122,22 @@ class _OrderMainState extends State<OrderMain> {
                 borderRadius: BorderRadius.circular(10)),
             padding: const EdgeInsets.all(20),
             child: SfDateRangePicker(
+              confirmText: "SUBMIT",
+              startRangeSelectionColor: primaryColor,
+              endRangeSelectionColor: primaryColor,
+              rangeSelectionColor: secondaryColor,
+              showActionButtons: true,
               showTodayButton: true,
+              todayHighlightColor: primaryColor,
               headerStyle:
                   const DateRangePickerHeaderStyle(backgroundColor: themeColor),
               minDate: DateTime.now(),
               maxDate: DateTime.now().add(const Duration(days: 21)),
+              onCancel: _onCancel,
+              onSubmit: _onSubmit,
               onSelectionChanged: _onSelectionChanged,
               selectionMode: DateRangePickerSelectionMode.range,
-              initialSelectedRange: PickerDateRange(
-                  DateTime.now(), DateTime.now().add(const Duration(days: 3))),
+              initialSelectedDate: DateTime.now(),
             ),
           ),
           const Spacer(),

@@ -133,8 +133,10 @@ class _ChangePassMainState extends State<ChangePassMain> {
                 TextFormField(
                   obscureText: _isHiddenOldPass,
                   controller: _oldPasswordController,
+                  cursorColor: primaryColor,
                   decoration: InputDecoration(
                     hintText: 'Input Old Password',
+                    suffixIconColor: primaryColor,
                     focusedBorder: OutlineInputBorder(
                       borderSide:
                           const BorderSide(color: primaryColor, width: 2.0),
@@ -174,7 +176,9 @@ class _ChangePassMainState extends State<ChangePassMain> {
                   onChanged: (value) {
                     _onFormChanged(value);
                   },
+                  cursorColor: primaryColor,
                   decoration: InputDecoration(
+                    suffixIconColor: primaryColor,
                     hintText: 'Input New Password',
                     focusedBorder: OutlineInputBorder(
                       borderSide:
@@ -213,8 +217,10 @@ class _ChangePassMainState extends State<ChangePassMain> {
                   obscureText: _isHiddenRepeatPass,
                   controller: _repeatPasswordController,
                   enabled: _isFieldEnabled,
+                  cursorColor: primaryColor,
                   decoration: InputDecoration(
                     hintText: 'Repeat New Password',
+                    suffixIconColor: primaryColor,
                     focusedBorder: OutlineInputBorder(
                       borderSide:
                           const BorderSide(color: primaryColor, width: 2.0),

@@ -216,7 +216,7 @@ class DetailMain extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Padding(
-                padding: const EdgeInsets.only(right: 90),
+                padding: const EdgeInsets.only(right: 80),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -242,9 +242,7 @@ class DetailMain extends StatelessWidget {
                     Row(
                       children: const [
                         Image(
-                          image: AssetImage('assets/images/manual.png'),
-                          height: 20,
-                          width: 20,
+                          image: AssetImage('assets/images/Engine.png'),
                         ),
                         SizedBox(
                           width: 10,
@@ -280,12 +278,12 @@ class DetailMain extends StatelessWidget {
                       ],
                     ),
                     const SizedBox(
-                      height: 15,
+                      height: 20,
                     ),
                     Row(
                       children: const [
                         Image(
-                          image: AssetImage('assets/images/Tire.png'),
+                          image: AssetImage('assets/images/4WD.png'),
                         ),
                         SizedBox(
                           width: 10,

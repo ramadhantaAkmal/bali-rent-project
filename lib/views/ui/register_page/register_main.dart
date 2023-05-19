@@ -1,3 +1,4 @@
+import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 import 'package:bali_rent/fetchs/user_fetch.dart';
 import 'package:bali_rent/style.dart';
 import 'package:flutter/material.dart';
@@ -59,21 +60,29 @@ class _RegisterMainState extends State<RegisterMain> {
     if (result == "New Account has been created") {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text(result),
-          backgroundColor: primaryColor,
+          backgroundColor: Colors.transparent,
+          content: AwesomeSnackbarContent(
+            title: 'Success!',
+            message: '$result!',
+
+            /// change contentType to ContentType.success, ContentType.warning or ContentType.help for variants
+            contentType: ContentType.success,
+          ),
           behavior: SnackBarBehavior.floating,
-          margin: EdgeInsets.only(bottom: 30, right: 20, left: 20),
-          showCloseIcon: true,
+          elevation: 0,
         ),
       );
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text(result),
-          backgroundColor: primaryColor,
+          backgroundColor: Colors.transparent,
+          content: AwesomeSnackbarContent(
+            title: 'Register Failed!',
+            message: '$result!',
+            contentType: ContentType.failure,
+          ),
           behavior: SnackBarBehavior.floating,
-          margin: EdgeInsets.only(bottom: 30, right: 20, left: 20),
-          showCloseIcon: true,
+          elevation: 0,
         ),
       );
       context.pop();

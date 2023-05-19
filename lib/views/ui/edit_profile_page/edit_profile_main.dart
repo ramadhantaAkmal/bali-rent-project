@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 import 'package:bali_rent/fetchs/user_fetch.dart';
 import 'package:bali_rent/style.dart';
 import 'package:flutter/material.dart';
@@ -126,6 +127,22 @@ class _EditProfileMainState extends ConsumerState<EditProfileMain> {
         );
         var result = await UserApi.userUpdate(user, imgFile, token["id"]);
         print(result);
+        context.pushReplacement('/homescreen');
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            backgroundColor: Colors.transparent,
+            content: AwesomeSnackbarContent(
+              title: 'Password invalid!',
+              message: 'You need to insert password!',
+
+              /// change contentType to ContentType.success, ContentType.warning or ContentType.help for variants
+              contentType: ContentType.warning,
+            ),
+            behavior: SnackBarBehavior.floating,
+            elevation: 0,
+          ),
+        );
       }
     } catch (e) {
       print(e);
@@ -302,7 +319,16 @@ class _EditProfileMainState extends ConsumerState<EditProfileMain> {
                         ),
                         TextFormField(
                           controller: _nameController,
+                          cursorColor: primaryColor,
                           decoration: InputDecoration(
+                            enabledBorder: const OutlineInputBorder(
+                                borderSide: BorderSide(
+                              color: primaryColor,
+                            )),
+                            focusedBorder: const OutlineInputBorder(
+                                borderSide: BorderSide(
+                              color: primaryColor,
+                            )),
                             border: const OutlineInputBorder(),
                             labelText: 'Name',
                             // The MaterialStateProperty's value is a text style that is orange
@@ -331,7 +357,16 @@ class _EditProfileMainState extends ConsumerState<EditProfileMain> {
                         ),
                         TextFormField(
                           controller: _phoneNumController,
+                          cursorColor: primaryColor,
                           decoration: InputDecoration(
+                            enabledBorder: const OutlineInputBorder(
+                                borderSide: BorderSide(
+                              color: primaryColor,
+                            )),
+                            focusedBorder: const OutlineInputBorder(
+                                borderSide: BorderSide(
+                              color: primaryColor,
+                            )),
                             border: const OutlineInputBorder(),
                             labelText: 'Phone Number',
                             // The MaterialStateProperty's value is a text style that is orange
@@ -360,7 +395,16 @@ class _EditProfileMainState extends ConsumerState<EditProfileMain> {
                         ),
                         TextFormField(
                           controller: _emailController,
+                          cursorColor: primaryColor,
                           decoration: InputDecoration(
+                            enabledBorder: const OutlineInputBorder(
+                                borderSide: BorderSide(
+                              color: primaryColor,
+                            )),
+                            focusedBorder: const OutlineInputBorder(
+                                borderSide: BorderSide(
+                              color: primaryColor,
+                            )),
                             border: const OutlineInputBorder(),
                             labelText: 'Email',
                             // The MaterialStateProperty's value is a text style that is orange
@@ -389,7 +433,16 @@ class _EditProfileMainState extends ConsumerState<EditProfileMain> {
                         ),
                         TextFormField(
                           controller: _usernameController,
+                          cursorColor: primaryColor,
                           decoration: InputDecoration(
+                            enabledBorder: const OutlineInputBorder(
+                                borderSide: BorderSide(
+                              color: primaryColor,
+                            )),
+                            focusedBorder: const OutlineInputBorder(
+                                borderSide: BorderSide(
+                              color: primaryColor,
+                            )),
                             border: const OutlineInputBorder(),
                             labelText: 'Username',
                             // The MaterialStateProperty's value is a text style that is orange
@@ -418,9 +471,19 @@ class _EditProfileMainState extends ConsumerState<EditProfileMain> {
                         ),
                         TextFormField(
                           controller: _passwordController,
+                          cursorColor: primaryColor,
                           obscureText: _isHiddenPass,
                           decoration: InputDecoration(
+                            enabledBorder: const OutlineInputBorder(
+                                borderSide: BorderSide(
+                              color: primaryColor,
+                            )),
+                            focusedBorder: const OutlineInputBorder(
+                                borderSide: BorderSide(
+                              color: primaryColor,
+                            )),
                             border: const OutlineInputBorder(),
+                            suffixIconColor: primaryColor,
                             labelText: 'Password Verification',
                             // The MaterialStateProperty's value is a text style that is orange
                             // by default, but the theme's error color if the input decorator
@@ -472,12 +535,11 @@ class _EditProfileMainState extends ConsumerState<EditProfileMain> {
                                 _passwordController.text,
                                 _imageFile,
                               );
-                              context.pushReplacement('/homescreen');
                             },
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(30.0),
                             ),
-                            color: Colors.blueAccent,
+                            color: primaryColor,
                             child: const Text(
                               'UPDATE PROFILE',
                               style: TextStyle(
