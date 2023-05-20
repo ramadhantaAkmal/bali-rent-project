@@ -125,8 +125,22 @@ class _EditProfileMainState extends ConsumerState<EditProfileMain> {
           username: username,
           password: password,
         );
-        var result = await UserApi.userUpdate(user, imgFile, token["id"]);
-        print(result);
+        var result = await UserApi.userUpdate(
+            user, imgFile, token["id"], token["access_token"]);
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            backgroundColor: Colors.transparent,
+            content: AwesomeSnackbarContent(
+              title: 'Success!',
+              message: result,
+
+              /// change contentType to ContentType.success, ContentType.warning or ContentType.help for variants
+              contentType: ContentType.success,
+            ),
+            behavior: SnackBarBehavior.floating,
+            elevation: 0,
+          ),
+        );
         context.pushReplacement('/homescreen');
       } else {
         ScaffoldMessenger.of(context).showSnackBar(

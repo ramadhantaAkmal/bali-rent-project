@@ -10,10 +10,17 @@ import '../models/user_models/user.dart';
 class UserApi {
   static const String url = 'http://10.0.2.2:3000/api/users';
 
-  static getuser(dynamic userId) async {
+  static getuser(String accessToken) async {
     try {
-      Uri a = Uri.parse('$url/detail/$userId');
-      final response = await http.get(a);
+      Uri a = Uri.parse('$url/detail/');
+
+      final response = await http.get(
+        a,
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+          'access_token': accessToken,
+        },
+      );
       if (response.statusCode == 200) {
         // If the server did return a 201 CREATED response,
         // then parse the JSON.
@@ -84,15 +91,15 @@ class UserApi {
     }
   }
 
-  static userChangePass(
-      String oldPass, String newPass, String confirmNewPass, int id) async {
+  static userChangePass(String oldPass, String newPass, String confirmNewPass,
+      String accessToken) async {
     try {
-      String userId = id.toString();
-      String changePass = '$url/changePassword/$userId';
+      String changePass = '$url/changePassword/';
       final response = await http.put(
         Uri.parse(changePass),
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
+          'access_token': accessToken,
         },
         body: jsonEncode(<String, String>{
           'newPassword': newPass,
@@ -110,17 +117,18 @@ class UserApi {
         final body = json.decode(response.body);
         final message = body["message"];
         log("error code: $statusCode");
-        return message;
+        return "failed";
       }
     } catch (e) {
       return e;
     }
   }
 
-  static userUpdate(UserModel user, XFile? imgFile, int id) async {
+  static userUpdate(
+      UserModel user, XFile? imgFile, int id, String accessToken) async {
     try {
       String userId = id.toString();
-      String updateURL = '$url/$userId';
+      String updateURL = '$url/';
       final uri = Uri.parse(updateURL);
 
       final requestBody = <String, String>{
@@ -134,6 +142,7 @@ class UserApi {
       if (imgFile == null) {
         final headers = <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
+          'access_token': accessToken,
         };
         response = await http.put(
           uri,
@@ -145,14 +154,20 @@ class UserApi {
 
         final imageBytes = await imageFile.readAsBytes();
 
+        final headers = <String, String>{
+          'access_token': accessToken,
+        };
+
         // Create a multipart request
         var request = http.MultipartRequest('PUT', uri);
+
+        request.headers.addAll(headers);
 
         // Add the image file to the request
         request.files.add(http.MultipartFile.fromBytes(
           'profilePicture',
           imageBytes,
-          filename: 'image.jpg',
+          filename: 'image$userId.jpg',
           contentType: MediaType('image', 'jpeg'),
         ));
 
@@ -169,7 +184,7 @@ class UserApi {
 
       final statusCode = response.statusCode;
       log("error code: $statusCode");
-      return "Update Success";
+      return "Update Faileds";
     } catch (e) {
       return e;
     }

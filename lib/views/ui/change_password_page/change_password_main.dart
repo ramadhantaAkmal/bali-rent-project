@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 import 'package:bali_rent/fetchs/user_fetch.dart';
 import 'package:bali_rent/style.dart';
 import 'package:flutter/material.dart';
@@ -51,13 +52,15 @@ class _ChangePassMainState extends State<ChangePassMain> {
   }
 
   void _onFormChanged(String value) {
-    if (value != '') {
-      _isBtnDisabled = false;
-      _isFieldEnabled = true;
-    } else {
-      _isBtnDisabled = true;
-      _isFieldEnabled = false;
-    }
+    setState(() {
+      if (value != '') {
+        _isBtnDisabled = false;
+        _isFieldEnabled = true;
+      } else {
+        _isBtnDisabled = true;
+        _isFieldEnabled = false;
+      }
+    });
   }
 
   void _changePass(
@@ -65,8 +68,40 @@ class _ChangePassMainState extends State<ChangePassMain> {
     SharedPreferences pref = await SharedPreferences.getInstance();
     var token = json.decode(pref.getString("token")!);
     var result = await UserApi.userChangePass(
-        oldPass, newPass, confirmNewPass, token["id"]);
-    print(result);
+        oldPass, newPass, confirmNewPass, token["access_token"]);
+
+    if (result != "failed") {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          backgroundColor: Colors.transparent,
+          content: AwesomeSnackbarContent(
+            title: 'Success!',
+            message: result,
+
+            /// change contentType to ContentType.success, ContentType.warning or ContentType.help for variants
+            contentType: ContentType.success,
+          ),
+          behavior: SnackBarBehavior.floating,
+          elevation: 0,
+        ),
+      );
+      context.pop();
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          backgroundColor: Colors.transparent,
+          content: AwesomeSnackbarContent(
+            title: 'Failed!',
+            message: result,
+
+            /// change contentType to ContentType.success, ContentType.warning or ContentType.help for variants
+            contentType: ContentType.failure,
+          ),
+          behavior: SnackBarBehavior.floating,
+          elevation: 0,
+        ),
+      );
+    }
   }
 
   AppBar _buildAppBar(BuildContext context) {

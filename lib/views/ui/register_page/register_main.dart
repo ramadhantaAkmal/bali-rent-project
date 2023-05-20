@@ -72,6 +72,7 @@ class _RegisterMainState extends State<RegisterMain> {
           elevation: 0,
         ),
       );
+      context.pop();
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
@@ -85,7 +86,6 @@ class _RegisterMainState extends State<RegisterMain> {
           elevation: 0,
         ),
       );
-      context.pop();
     }
   }
 
