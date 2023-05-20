@@ -1,18 +1,22 @@
+import 'package:bali_rent/models/brand_models/brand.dart';
 import 'package:bali_rent/style.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
-class WelcomeMain extends StatelessWidget {
+import '../../../viewmodel/brand_providers.dart';
+
+class WelcomeMain extends ConsumerWidget {
   const WelcomeMain({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
-      body: buildBody(context),
+      body: buildBody(context, ref),
     );
   }
 
-  Widget buildBody(BuildContext context) {
+  Widget buildBody(BuildContext context, WidgetRef ref) {
     return Container(
       decoration: const BoxDecoration(
         image: DecorationImage(
@@ -66,6 +70,7 @@ class WelcomeMain extends StatelessWidget {
                     color: Colors.white),
               ),
               onPressed: () {
+                ref.read(brandProvider.notifier).getBrands();
                 context.push('/homescreen');
               },
             ),

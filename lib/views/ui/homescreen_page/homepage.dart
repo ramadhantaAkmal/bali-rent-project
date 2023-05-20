@@ -2,25 +2,29 @@ import 'dart:convert';
 
 import 'package:bali_rent/style.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../../../models/brand_models/brand.dart';
+import '../../../viewmodel/brand_providers.dart';
 import 'homescreen_widget/brand_card.dart';
 import 'homescreen_widget/car_card.dart';
 
-class Homepage extends StatefulWidget {
+class Homepage extends ConsumerStatefulWidget {
   const Homepage({super.key});
 
   @override
-  State<Homepage> createState() => _HomepageState();
+  ConsumerState<Homepage> createState() => _HomepageState();
 }
 
-class _HomepageState extends State<Homepage> {
+class _HomepageState extends ConsumerState<Homepage> {
   bool _login = true;
 
   @override
   void initState() {
     // TODO: implement initState
+    ref.read(brandProvider);
     SharedPreferences.getInstance().then(
       (pref) {
         var token = json.decode(pref.getString("token")!);
@@ -41,6 +45,7 @@ class _HomepageState extends State<Homepage> {
 
   @override
   Widget build(BuildContext context) {
+    final List<BrandModel> userRef = ref.watch(brandProvider);
     return SafeArea(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -133,8 +138,9 @@ class _HomepageState extends State<Homepage> {
                       physics: const BouncingScrollPhysics(),
                       shrinkWrap: true,
                       scrollDirection: Axis.horizontal,
-                      itemBuilder: (context, index) => const BrandCard(),
-                      itemCount: 10,
+                      itemBuilder: (context, index) =>
+                          BrandCard(userRef[index].brandImage),
+                      itemCount: userRef.length,
                     ),
                   ),
                   const SizedBox(
