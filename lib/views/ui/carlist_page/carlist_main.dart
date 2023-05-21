@@ -2,16 +2,21 @@ import 'package:bali_rent/style.dart';
 import 'package:bali_rent/views/ui/carlist_page/carlist_widget/car_card.dart';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
-class CarListMain extends StatelessWidget {
+import '../../../models/car_models/car.dart';
+import '../../../viewmodel/car_providers.dart';
+
+class CarListMain extends ConsumerWidget {
   const CarListMain({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final List<CarModel> carRef = ref.watch(carProvider);
     return Scaffold(
       appBar: _buildAppbar(context),
-      body: _buildBody(context),
+      body: _buildBody(context, carRef),
     );
   }
 
@@ -55,7 +60,7 @@ class CarListMain extends StatelessWidget {
     );
   }
 
-  Widget _buildBody(BuildContext context) {
+  Widget _buildBody(BuildContext context, List<CarModel> carRef) {
     return Container(
       color: backgroundColor,
       padding: const EdgeInsets.all(10.0),
@@ -130,8 +135,8 @@ class CarListMain extends StatelessWidget {
             child: ListView.builder(
               physics: const BouncingScrollPhysics(),
               shrinkWrap: true,
-              itemBuilder: (context, index) => const CarListCard(),
-              itemCount: 5,
+              itemBuilder: (context, index) => CarListCard(carRef[index]),
+              itemCount: carRef.length,
             ),
           ),
         ],

@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 import 'package:bali_rent/style.dart';
 import 'package:flutter/material.dart';
@@ -51,8 +52,6 @@ class CarCard extends StatelessWidget {
                   content: AwesomeSnackbarContent(
                     title: 'Sorry!',
                     message: 'You need to login first!',
-
-                    /// change contentType to ContentType.success, ContentType.warning or ContentType.help for variants
                     contentType: ContentType.warning,
                   ),
                   behavior: SnackBarBehavior.floating,
@@ -102,13 +101,16 @@ class CarCard extends StatelessWidget {
                       ),
                     ),
                     //car address
-                    Text(
+                    AutoSizeText(
                       car.rentHouse["address"],
                       style: TextStyle(
                         fontFamily: 'Poppins',
                         color: Colors.grey,
                         fontSize: 11,
                       ),
+                      minFontSize: 2,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
                     ),
                     Text.rich(
                       //car price

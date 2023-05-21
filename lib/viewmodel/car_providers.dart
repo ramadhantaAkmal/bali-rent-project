@@ -25,7 +25,6 @@ class CarNotifier extends StateNotifier<List<CarModel>> {
         "rentHouse": data["rentHouse"],
       });
     }).toList();
-    print(state);
   }
 }
 
