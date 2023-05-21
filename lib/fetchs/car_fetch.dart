@@ -2,10 +2,10 @@ import 'dart:convert';
 
 import 'package:http/http.dart' as http;
 
-class BrandApi {
-  static const String url = 'http://10.0.2.2:3000/api/brands';
+class CarApi {
+  static const String url = 'http://10.0.2.2:3000/api/cars';
 
-  static getBrands() async {
+  static getCars() async {
     try {
       Uri a = Uri.parse(url);
 
@@ -15,6 +15,7 @@ class BrandApi {
           'Content-Type': 'application/json; charset=UTF-8',
         },
       );
+
       if (response.statusCode == 200) {
         // If the server did return a 201 CREATED response,
         // then parse the JSON.

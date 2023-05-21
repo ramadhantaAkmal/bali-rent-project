@@ -1,5 +1,6 @@
 import 'package:bali_rent/models/brand_models/brand.dart';
 import 'package:bali_rent/style.dart';
+import 'package:bali_rent/viewmodel/car_providers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -71,6 +72,7 @@ class WelcomeMain extends ConsumerWidget {
               ),
               onPressed: () {
                 ref.read(brandProvider.notifier).getBrands();
+                ref.read(carProvider.notifier).getCars();
                 context.push('/homescreen');
               },
             ),

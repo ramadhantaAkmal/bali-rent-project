@@ -93,14 +93,29 @@ class CarListMain extends StatelessWidget {
               Expanded(
                 flex: 2,
                 child: OutlinedButton(
-                  child: const Text(
-                    "Filter",
-                    textAlign: TextAlign.left,
-                    style: TextStyle(color: Colors.black),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Flexible(
+                        flex: 3,
+                        child: const Text(
+                          "Filter",
+                          textAlign: TextAlign.left,
+                          style: TextStyle(color: Colors.black),
+                        ),
+                      ),
+                      Flexible(
+                        child: Icon(
+                          Icons.filter_list,
+                          color: primaryColor,
+                          size: 17,
+                        ),
+                      ),
+                    ],
                   ),
                   style: OutlinedButton.styleFrom(
                     alignment: Alignment.centerLeft,
-                    fixedSize: const Size(73, 40),
+                    fixedSize: const Size(75, 40),
                     side: const BorderSide(
                       strokeAlign: 10,
                       color: themeColor,

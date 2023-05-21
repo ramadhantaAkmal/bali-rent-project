@@ -7,7 +7,9 @@ import 'package:go_router/go_router.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../models/brand_models/brand.dart';
+import '../../../models/car_models/car.dart';
 import '../../../viewmodel/brand_providers.dart';
+import '../../../viewmodel/car_providers.dart';
 import 'homescreen_widget/brand_card.dart';
 import 'homescreen_widget/car_card.dart';
 
@@ -23,8 +25,8 @@ class _HomepageState extends ConsumerState<Homepage> {
 
   @override
   void initState() {
-    // TODO: implement initState
     ref.read(brandProvider);
+    ref.read(carProvider);
     SharedPreferences.getInstance().then(
       (pref) {
         var token = json.decode(pref.getString("token")!);
@@ -46,6 +48,7 @@ class _HomepageState extends ConsumerState<Homepage> {
   @override
   Widget build(BuildContext context) {
     final List<BrandModel> userRef = ref.watch(brandProvider);
+    final List<CarModel> carRef = ref.watch(carProvider);
     return SafeArea(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -172,14 +175,15 @@ class _HomepageState extends ConsumerState<Homepage> {
                       ],
                     ),
                   ),
-                  SizedBox(
-                    height: 156,
+                  Container(
+                    height: 209,
+                    color: backgroundColor,
                     child: ListView.builder(
                       physics: const BouncingScrollPhysics(),
                       shrinkWrap: true,
                       scrollDirection: Axis.horizontal,
-                      itemBuilder: (context, index) => const CarCard(),
-                      itemCount: 10,
+                      itemBuilder: (context, index) => CarCard(carRef[index]),
+                      itemCount: carRef.length,
                     ),
                   ),
                 ],
