@@ -4,22 +4,24 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 import 'package:bali_rent/style.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../../models/car_models/car.dart';
+import '../../../../viewmodel/detail_providers.dart';
 
-class CarListCard extends StatelessWidget {
+class CarListCard extends ConsumerWidget {
   const CarListCard(this.car, {super.key});
   final CarModel car;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return Container(
       decoration: BoxDecoration(
           color: backgroundColor,
-          borderRadius: BorderRadius.all(Radius.circular(10)),
+          borderRadius: const BorderRadius.all(Radius.circular(10)),
           border: Border.all(color: Colors.grey),
           boxShadow: const [
             BoxShadow(
@@ -44,6 +46,9 @@ class CarListCard extends StatelessWidget {
             // try catch used to check if token exist
             try {
               var token = jsonDecode(pref.getString("token")!);
+              ref
+                  .read(detailProvider.notifier)
+                  .getCarDetails(car, car.rentHouse["id"]);
               context.push('/homescreen/detail');
             } catch (_) {
               ScaffoldMessenger.of(context).showSnackBar(
@@ -72,10 +77,10 @@ class CarListCard extends StatelessWidget {
                     image: DecorationImage(
                         fit: BoxFit.cover, image: NetworkImage(car.carImage)),
                     color: backgroundColor,
-                    borderRadius: BorderRadius.all(Radius.circular(10)),
+                    borderRadius: const BorderRadius.all(Radius.circular(10)),
                     border: Border.all(color: Colors.grey),
                     boxShadow: [
-                      BoxShadow(
+                      const BoxShadow(
                         color: Colors.grey,
                         blurStyle: BlurStyle.solid,
                         spreadRadius: 1,
@@ -86,7 +91,7 @@ class CarListCard extends StatelessWidget {
               ),
               Flexible(
                 child: Container(
-                  padding: EdgeInsets.symmetric(horizontal: 7),
+                  padding: const EdgeInsets.symmetric(horizontal: 7),
                   height: 100,
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -95,7 +100,7 @@ class CarListCard extends StatelessWidget {
                       //Car Name
                       Text(
                         car.name,
-                        style: TextStyle(
+                        style: const TextStyle(
                           fontSize: 20,
                           fontFamily: 'Poppins',
                           fontWeight: FontWeight.w500,
@@ -104,7 +109,7 @@ class CarListCard extends StatelessWidget {
                       //car address
                       AutoSizeText(
                         car.rentHouse["address"],
-                        style: TextStyle(
+                        style: const TextStyle(
                           fontFamily: 'Poppins',
                           color: Colors.grey,
                           fontSize: 11,
@@ -113,7 +118,7 @@ class CarListCard extends StatelessWidget {
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                       ),
-                      Spacer(
+                      const Spacer(
                         flex: 2,
                       ),
                       Text(
@@ -128,17 +133,18 @@ class CarListCard extends StatelessWidget {
                       AutoSizeText.rich(
                         //car price
                         TextSpan(children: [
-                          TextSpan(text: "From "),
+                          const TextSpan(text: "From "),
                           TextSpan(
                               text: NumberFormat.currency(
                                 locale: 'id',
                                 symbol: 'Rp ',
                                 decimalDigits: 2,
                               ).format(car.rentPrice),
-                              style: TextStyle(fontWeight: FontWeight.bold)),
-                          TextSpan(text: "/day"),
+                              style:
+                                  const TextStyle(fontWeight: FontWeight.bold)),
+                          const TextSpan(text: "/day"),
                         ]),
-                        style: TextStyle(
+                        style: const TextStyle(
                             fontFamily: 'Poppins', color: primaryColor),
                         minFontSize: 2,
                         maxLines: 1,

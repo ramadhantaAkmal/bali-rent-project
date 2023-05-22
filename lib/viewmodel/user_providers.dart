@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 
 import 'package:bali_rent/fetchs/user_fetch.dart';
 import 'package:bali_rent/models/user_models/user.dart';
@@ -28,7 +29,7 @@ class UserNotifier extends StateNotifier<UserModel> {
         profilePicture: userData["data"]["profilePicture"],
       );
     } catch (e) {
-      print(e);
+      log(e.toString());
     }
   }
 }

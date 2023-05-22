@@ -1,19 +1,28 @@
+import 'package:bali_rent/models/renthouse_models/renthouse.dart';
+import 'package:bali_rent/viewmodel/detail_providers.dart';
 import 'package:flutter/material.dart';
 import 'package:bali_rent/style.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:intl/intl.dart';
 
-class DetailMain extends StatelessWidget {
+import '../../../models/car_models/car.dart';
+
+class DetailMain extends ConsumerWidget {
   const DetailMain({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final detail = ref.watch(detailProvider);
+    final CarModel carData = detail["CarData"] as CarModel;
+    final RentHouseModel renterData = detail["RentHouseData"] as RentHouseModel;
     return Scaffold(
-      appBar: _buildAppBar(context),
-      body: _buildBody(context),
+      appBar: _buildAppBar(context, ref),
+      body: _buildBody(context, carData, renterData),
     );
   }
 
-  AppBar _buildAppBar(BuildContext context) {
+  AppBar _buildAppBar(BuildContext context, WidgetRef ref) {
     return AppBar(
       elevation: 1,
       backgroundColor: themeColor,
@@ -41,6 +50,7 @@ class DetailMain extends StatelessWidget {
               iconSize: 20,
               onPressed: () {
                 context.pop();
+                // ref.invalidate(detailProvider);
               },
               icon: const Icon(
                 Icons.arrow_back_ios,
@@ -53,7 +63,8 @@ class DetailMain extends StatelessWidget {
     );
   }
 
-  Widget _buildBody(BuildContext context) {
+  Widget _buildBody(
+      BuildContext context, CarModel carData, RentHouseModel renterData) {
     return Padding(
       padding: const EdgeInsets.all(20.0),
       child: Column(
@@ -62,16 +73,16 @@ class DetailMain extends StatelessWidget {
           Container(
             decoration: BoxDecoration(
               border: Border.all(color: Colors.black45),
-              boxShadow: [
-                const BoxShadow(
+              boxShadow: const [
+                BoxShadow(
                     blurRadius: 5,
                     spreadRadius: 2,
                     offset: Offset(3, 4),
                     color: Colors.black26),
               ],
             ),
-            child: const Image(
-              image: AssetImage('assets/images/toyota-avanza.jpeg'),
+            child: Image(
+              image: NetworkImage(carData.carImage),
             ),
           ),
           Padding(
@@ -82,35 +93,47 @@ class DetailMain extends StatelessWidget {
               children: [
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
-                  children: const [
+                  children: [
                     Text(
-                      'Toyota Avanza',
-                      style: TextStyle(
+                      carData.name,
+                      style: const TextStyle(
                         fontSize: 23,
                         fontWeight: FontWeight.w700,
                       ),
                     ),
                     Text(
-                      'Available',
+                      carData.status,
                       style: TextStyle(
                         fontSize: 15,
-                        color: Colors.green,
+                        color: carData.status == "Available"
+                            ? Colors.green
+                            : Colors.red,
                       ),
                     ),
                     Text(
-                      'Jimbaran, Kecamatan Kuta Selatan',
-                      style: TextStyle(
+                      renterData.address,
+                      style: const TextStyle(
                         fontSize: 12,
                         color: Colors.grey,
                       ),
                     ),
                   ],
                 ),
-                const Padding(
-                  padding: EdgeInsets.only(top: 5),
-                  child: Text(
-                    'Rp. 399.000/day',
-                    style: TextStyle(
+                Padding(
+                  padding: const EdgeInsets.only(top: 5),
+                  child: Text.rich(
+                    TextSpan(children: [
+                      const TextSpan(text: "From "),
+                      TextSpan(
+                        text: NumberFormat.currency(
+                          locale: 'id',
+                          symbol: 'Rp ',
+                          decimalDigits: 0,
+                        ).format(carData.rentPrice),
+                      ),
+                      const TextSpan(text: "/day"),
+                    ]),
+                    style: const TextStyle(
                       fontSize: 15,
                       color: primaryColor,
                     ),
@@ -127,12 +150,12 @@ class DetailMain extends StatelessWidget {
             children: [
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
-                children: const [
+                children: [
                   Text(
-                    'I Made Cakra',
-                    style: TextStyle(fontSize: 15),
+                    renterData.employee["name"],
+                    style: const TextStyle(fontSize: 15),
                   ),
-                  Text(
+                  const Text(
                     'Renter',
                     style: TextStyle(
                       fontSize: 12,
@@ -221,18 +244,18 @@ class DetailMain extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Row(
-                      children: const [
-                        Icon(
+                      children: [
+                        const Icon(
                           Icons.airline_seat_recline_normal,
                           color: primaryColor,
                           size: 30,
                         ),
-                        SizedBox(
+                        const SizedBox(
                           width: 10,
                         ),
                         Text(
-                          '6 seat',
-                          style: TextStyle(fontSize: 14),
+                          "${carData.seatCount} Seat",
+                          style: const TextStyle(fontSize: 14),
                         ),
                       ],
                     ),
@@ -240,16 +263,16 @@ class DetailMain extends StatelessWidget {
                       height: 20,
                     ),
                     Row(
-                      children: const [
-                        Image(
+                      children: [
+                        const Image(
                           image: AssetImage('assets/images/Engine.png'),
                         ),
-                        SizedBox(
+                        const SizedBox(
                           width: 10,
                         ),
                         Text(
-                          'Manual',
-                          style: TextStyle(fontSize: 14),
+                          carData.transmission,
+                          style: const TextStyle(fontSize: 14),
                         ),
                       ],
                     ),
@@ -262,18 +285,18 @@ class DetailMain extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Row(
-                      children: const [
-                        Icon(
+                      children: [
+                        const Icon(
                           Icons.local_gas_station,
                           color: primaryColor,
                           size: 30,
                         ),
-                        SizedBox(
+                        const SizedBox(
                           width: 10,
                         ),
                         Text(
-                          'Petrol 95',
-                          style: TextStyle(fontSize: 14),
+                          carData.fuelType,
+                          style: const TextStyle(fontSize: 14),
                         ),
                       ],
                     ),
@@ -281,16 +304,16 @@ class DetailMain extends StatelessWidget {
                       height: 20,
                     ),
                     Row(
-                      children: const [
-                        Image(
+                      children: [
+                        const Image(
                           image: AssetImage('assets/images/4WD.png'),
                         ),
-                        SizedBox(
+                        const SizedBox(
                           width: 10,
                         ),
                         Text(
-                          '2 WD',
-                          style: TextStyle(fontSize: 14),
+                          carData.wdType,
+                          style: const TextStyle(fontSize: 14),
                         ),
                       ],
                     ),

@@ -3,23 +3,25 @@ import 'dart:convert';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 import 'package:bali_rent/style.dart';
+import 'package:bali_rent/viewmodel/detail_providers.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../../models/car_models/car.dart';
 
-class CarCard extends StatelessWidget {
+class CarCard extends ConsumerWidget {
   const CarCard(this.car, {super.key});
   final CarModel car;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return Container(
       decoration: BoxDecoration(
           color: backgroundColor,
-          borderRadius: BorderRadius.all(Radius.circular(10)),
+          borderRadius: const BorderRadius.all(Radius.circular(10)),
           border: Border.all(color: Colors.grey),
           boxShadow: const [
             BoxShadow(
@@ -44,6 +46,9 @@ class CarCard extends StatelessWidget {
             // try catch used to check if token exist
             try {
               var token = jsonDecode(pref.getString("token")!);
+              ref
+                  .read(detailProvider.notifier)
+                  .getCarDetails(car, car.rentHouse["id"]);
               context.push('/homescreen/detail');
             } catch (_) {
               ScaffoldMessenger.of(context).showSnackBar(
@@ -72,10 +77,10 @@ class CarCard extends StatelessWidget {
                     image: DecorationImage(
                         fit: BoxFit.cover, image: NetworkImage(car.carImage)),
                     color: backgroundColor,
-                    borderRadius: BorderRadius.all(Radius.circular(10)),
+                    borderRadius: const BorderRadius.all(Radius.circular(10)),
                     border: Border.all(color: Colors.grey),
                     boxShadow: [
-                      BoxShadow(
+                      const BoxShadow(
                         color: Colors.grey,
                         blurStyle: BlurStyle.solid,
                         spreadRadius: 1,
@@ -85,7 +90,7 @@ class CarCard extends StatelessWidget {
                     ]),
               ),
               Container(
-                padding: EdgeInsets.symmetric(horizontal: 6),
+                padding: const EdgeInsets.symmetric(horizontal: 6),
                 height: 89,
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -94,7 +99,7 @@ class CarCard extends StatelessWidget {
                     //Car Name
                     Text(
                       car.name,
-                      style: TextStyle(
+                      style: const TextStyle(
                         fontSize: 20,
                         fontFamily: 'Poppins',
                         fontWeight: FontWeight.w500,
@@ -103,7 +108,7 @@ class CarCard extends StatelessWidget {
                     //car address
                     AutoSizeText(
                       car.rentHouse["address"],
-                      style: TextStyle(
+                      style: const TextStyle(
                         fontFamily: 'Poppins',
                         color: Colors.grey,
                         fontSize: 11,
@@ -115,18 +120,19 @@ class CarCard extends StatelessWidget {
                     Text.rich(
                       //car price
                       TextSpan(children: [
-                        TextSpan(text: "From "),
+                        const TextSpan(text: "From "),
                         TextSpan(
                             text: NumberFormat.currency(
                               locale: 'id',
                               symbol: 'Rp ',
                               decimalDigits: 2,
                             ).format(car.rentPrice),
-                            style: TextStyle(fontWeight: FontWeight.bold)),
-                        TextSpan(text: "/day"),
+                            style:
+                                const TextStyle(fontWeight: FontWeight.bold)),
+                        const TextSpan(text: "/day"),
                       ]),
-                      style:
-                          TextStyle(fontFamily: 'Poppins', color: primaryColor),
+                      style: const TextStyle(
+                          fontFamily: 'Poppins', color: primaryColor),
                     )
                   ],
                 ),

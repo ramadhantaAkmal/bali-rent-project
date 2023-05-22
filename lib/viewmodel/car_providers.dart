@@ -46,16 +46,21 @@ class CarNotifier extends StateNotifier<List<CarModel>> {
       final input = brand.toLowerCase();
       final status = car.status.toLowerCase();
 
+      //return true if user doesn`t choose anyting
       if (brand == "all" && statusInput == "all") {
         return true;
       }
 
+      //return true if user choose one of the brands but not the status
       if (brandName.contains(input) && statusInput == "all") {
         return true;
       }
+      //return true if user choose one of the status but not the brand
       if (brand == "all" && status == statusInput) {
         return true;
       }
+
+      //return false to filter the data returned
       return false;
     }).toList();
   }
