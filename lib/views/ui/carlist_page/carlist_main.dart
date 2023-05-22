@@ -1,22 +1,45 @@
 import 'package:bali_rent/style.dart';
 import 'package:bali_rent/views/ui/carlist_page/carlist_widget/car_card.dart';
+import 'package:bali_rent/views/ui/carlist_page/carlist_widget/car_filter.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../../models/brand_models/brand.dart';
 import '../../../models/car_models/car.dart';
+import '../../../viewmodel/brand_providers.dart';
 import '../../../viewmodel/car_providers.dart';
 
-class CarListMain extends ConsumerWidget {
+class CarListMain extends ConsumerStatefulWidget {
   const CarListMain({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final List<CarModel> carRef = ref.watch(carProvider);
+  ConsumerState<CarListMain> createState() => _CarListMainState();
+}
+
+class _CarListMainState extends ConsumerState<CarListMain> {
+  @override
+  void initState() {
+    super.initState();
+    ref.read(carProvider);
+  }
+
+  late List<CarModel> _carRef;
+  late List<BrandModel> _brandRef;
+  final TextEditingController _searchController = TextEditingController();
+
+  void _onSearchCar(String query) {
+    ref.read(carProvider.notifier).searchCars(query);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    _carRef = ref.watch(carProvider);
+    _brandRef = ref.watch(brandProvider);
     return Scaffold(
       appBar: _buildAppbar(context),
-      body: _buildBody(context, carRef),
+      body: _buildBody(context, _carRef, _brandRef),
     );
   }
 
@@ -47,6 +70,7 @@ class CarListMain extends ConsumerWidget {
             child: IconButton(
               iconSize: 20,
               onPressed: () {
+                ref.read(carProvider.notifier).getCars();
                 context.pop();
               },
               icon: const Icon(
@@ -60,7 +84,8 @@ class CarListMain extends ConsumerWidget {
     );
   }
 
-  Widget _buildBody(BuildContext context, List<CarModel> carRef) {
+  Widget _buildBody(
+      BuildContext context, List<CarModel> carRef, List<BrandModel> brandRef) {
     return Container(
       color: backgroundColor,
       padding: const EdgeInsets.all(10.0),
@@ -73,7 +98,8 @@ class CarListMain extends ConsumerWidget {
                 flex: 7,
                 child: Container(
                   margin: const EdgeInsets.all(16),
-                  child: const TextField(
+                  child: TextField(
+                    controller: _searchController,
                     decoration: InputDecoration(
                       fillColor: themeColor,
                       prefixIconColor: themeColor,
@@ -92,6 +118,9 @@ class CarListMain extends ConsumerWidget {
                         borderSide: BorderSide(color: themeColor),
                       ),
                     ),
+                    onChanged: (text) {
+                      _onSearchCar(text);
+                    },
                   ),
                 ),
               ),
@@ -126,7 +155,10 @@ class CarListMain extends ConsumerWidget {
                       color: themeColor,
                     ),
                   ),
-                  onPressed: () {},
+                  onPressed: () {
+                    showCarSelectionDialog(context, brandRef);
+                    // _onShowFilters(_brandRef);
+                  },
                 ),
               ),
             ],
