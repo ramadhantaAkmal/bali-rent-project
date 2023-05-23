@@ -5,6 +5,7 @@ import 'package:bali_rent/style.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../../models/car_models/car.dart';
 
@@ -14,12 +15,40 @@ class DetailMain extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final detail = ref.watch(detailProvider);
-    final CarModel carData = detail["CarData"] as CarModel;
-    final RentHouseModel renterData = detail["RentHouseData"] as RentHouseModel;
+    final CarModel? carData = detail["CarData"] as CarModel? ??
+        CarModel(
+            id: 0,
+            name: "",
+            rentPrice: 0,
+            plateNumber: "",
+            fuelType: "",
+            seatCount: 0,
+            carYear: 0,
+            transmission: "",
+            wdType: "",
+            carImage: "",
+            status: "",
+            brand: {},
+            rentHouse: {});
+    final RentHouseModel? renterData =
+        detail["RentHouseData"] as RentHouseModel? ??
+            RentHouseModel(address: "address", employeeId: 0, employee: {});
     return Scaffold(
       appBar: _buildAppBar(context, ref),
       body: _buildBody(context, carData, renterData),
     );
+  }
+
+  void _openWa(String num) async {
+    String url = "https://api.whatsapp.com/send?phone=$num=hello";
+
+    if (!await launchUrl(Uri.parse(url))) throw 'Could not launch $url';
+  }
+
+  void _openCall(String num) async {
+    String url = "tel:$num";
+
+    if (!await launchUrl(Uri.parse(url))) throw 'Could not launch $url';
   }
 
   AppBar _buildAppBar(BuildContext context, WidgetRef ref) {
@@ -50,7 +79,7 @@ class DetailMain extends ConsumerWidget {
               iconSize: 20,
               onPressed: () {
                 context.pop();
-                // ref.invalidate(detailProvider);
+                ref.invalidate(detailProvider);
               },
               icon: const Icon(
                 Icons.arrow_back_ios,
@@ -64,7 +93,7 @@ class DetailMain extends ConsumerWidget {
   }
 
   Widget _buildBody(
-      BuildContext context, CarModel carData, RentHouseModel renterData) {
+      BuildContext context, CarModel? carData, RentHouseModel? renterData) {
     return Padding(
       padding: const EdgeInsets.all(20.0),
       child: Column(
@@ -82,7 +111,7 @@ class DetailMain extends ConsumerWidget {
               ],
             ),
             child: Image(
-              image: NetworkImage(carData.carImage),
+              image: NetworkImage(carData!.carImage),
             ),
           ),
           Padding(
@@ -111,7 +140,7 @@ class DetailMain extends ConsumerWidget {
                       ),
                     ),
                     Text(
-                      renterData.address,
+                      renterData!.address,
                       style: const TextStyle(
                         fontSize: 12,
                         color: Colors.grey,
@@ -152,7 +181,7 @@ class DetailMain extends ConsumerWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    renterData.employee["name"],
+                    renterData.employee["name"] ?? "name",
                     style: const TextStyle(fontSize: 15),
                   ),
                   const Text(
@@ -185,7 +214,9 @@ class DetailMain extends ConsumerWidget {
                       ],
                     ),
                     child: IconButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        _openWa(renterData.employee["phoneNumber"] ?? "000");
+                      },
                       icon: const Icon(
                         Icons.chat,
                         color: primaryColor,
@@ -211,7 +242,9 @@ class DetailMain extends ConsumerWidget {
                       ],
                     ),
                     child: IconButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        _openCall(renterData.employee["phoneNumber"] ?? "000");
+                      },
                       icon: const Icon(
                         Icons.phone,
                         color: primaryColor,
