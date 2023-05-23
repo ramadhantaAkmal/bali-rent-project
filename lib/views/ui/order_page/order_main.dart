@@ -1,37 +1,53 @@
-import 'package:flutter/material.dart';
 import 'package:bali_rent/style.dart';
+import 'package:bali_rent/viewmodel/detail_providers.dart';
+import 'package:bali_rent/viewmodel/order_providers.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 import 'package:intl/intl.dart';
+import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 
-class OrderMain extends StatefulWidget {
+import '../../../models/car_models/car.dart';
+
+class OrderMain extends ConsumerStatefulWidget {
   const OrderMain({super.key});
 
   @override
-  State<OrderMain> createState() => _OrderMainState();
+  ConsumerState<OrderMain> createState() => _OrderMainState();
 }
 
-class _OrderMainState extends State<OrderMain> {
+class _OrderMainState extends ConsumerState<OrderMain> {
   dynamic _dateCount;
 
-  late int _totalFare;
-  late int _fare;
-  late int _totalFareConfirm;
+  int _totalFare = 0;
+  int _fare = 0;
+  int _totalFareConfirm = 0;
+
+  var _to;
+  var _from;
+  var _carId;
 
   @override
   void initState() {
-    // TODO: implement initState
-    _fare = 399000;
-    _totalFare = _fare;
-    _totalFareConfirm = _totalFare;
+    ref.read(detailProvider);
+    SchedulerBinding.instance.addPostFrameCallback((_) {
+      final detailRef = ref.read(detailProvider);
+      final CarModel carData = detailRef["CarData"] as CarModel;
+      _carId = carData.id;
+      _fare = carData.rentPrice;
+      _totalFare = _fare;
+      _totalFareConfirm = _totalFare;
+      setState(() {});
+    });
     super.initState();
   }
 
   void _onSelectionChanged(DateRangePickerSelectionChangedArgs args) {
     try {
-      var to = args.value.endDate;
-      var from = args.value.startDate;
-      _dateCount = (to.difference(from).inHours / 24).round() ?? 0;
+      _to = args.value.endDate;
+      _from = args.value.startDate;
+      _dateCount = (_to.difference(_from).inHours / 24).round() ?? 0;
       if (_dateCount > 0) {
         _totalFare = _dateCount * _fare;
       } else {
@@ -171,7 +187,12 @@ class _OrderMainState extends State<OrderMain> {
             padding: const EdgeInsets.symmetric(horizontal: 10),
             margin: const EdgeInsets.symmetric(vertical: 10),
             child: MaterialButton(
-              onPressed: () {},
+              onPressed: () {
+                ref
+                    .read(orderProvider.notifier)
+                    .saveBooked(_to, _from, _totalFare, _carId);
+                context.push('/homescreen/detail/order/method');
+              },
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(10.0),
               ),

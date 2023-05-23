@@ -5,7 +5,9 @@ import 'package:bali_rent/views/ui/detail_page/detail_main.dart';
 import 'package:bali_rent/views/ui/edit_profile_page/edit_profile_main.dart';
 import 'package:bali_rent/views/ui/login_page/login_main.dart';
 import 'package:bali_rent/views/ui/order_page/order_main.dart';
+import 'package:bali_rent/views/ui/payment_page/payment_main.dart';
 import 'package:bali_rent/views/ui/register_page/register_main.dart';
+import 'package:bali_rent/views/ui/vagen_page/virtualaccount_main.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -72,11 +74,27 @@ final GoRouter router = GoRouter(
                   },
                   routes: <RouteBase>[
                     GoRoute(
-                      path: 'order',
-                      builder: (BuildContext context, GoRouterState state) {
-                        return const OrderMain();
-                      },
-                    )
+                        path: 'order',
+                        builder: (BuildContext context, GoRouterState state) {
+                          return const OrderMain();
+                        },
+                        routes: <RouteBase>[
+                          GoRoute(
+                              path: 'method',
+                              builder:
+                                  (BuildContext context, GoRouterState state) {
+                                return const PaymentMain();
+                              },
+                              routes: <RouteBase>[
+                                GoRoute(
+                                  path: 'payment',
+                                  builder: (BuildContext context,
+                                      GoRouterState state) {
+                                    return const VirtualAccountMain();
+                                  },
+                                )
+                              ])
+                        ]),
                   ]),
             ]),
       ],

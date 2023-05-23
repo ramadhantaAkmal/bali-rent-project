@@ -14,6 +14,7 @@ class CarNotifier extends StateNotifier<List<CarModel>> {
     var carDatas = carResponse["data"];
     state = carDatas.map<CarModel>((data) {
       return CarModel.fromJson({
+        "id": data["id"],
         "name": data["name"],
         "rentPrice": data["rentPrice"],
         "plateNumber": data["plateNumber"],

@@ -73,7 +73,7 @@ class WelcomeMain extends ConsumerWidget {
               onPressed: () {
                 ref.read(brandProvider.notifier).getBrands();
                 ref.read(carProvider.notifier).getCars();
-                context.push('/homescreen');
+                context.pushReplacement('/homescreen');
               },
             ),
           ),

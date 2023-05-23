@@ -20,6 +20,7 @@ CarModel _$CarModelFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$CarModel {
+  int get id => throw _privateConstructorUsedError;
   String get name => throw _privateConstructorUsedError;
   int get rentPrice => throw _privateConstructorUsedError;
   String get plateNumber => throw _privateConstructorUsedError;
@@ -45,7 +46,8 @@ abstract class $CarModelCopyWith<$Res> {
       _$CarModelCopyWithImpl<$Res, CarModel>;
   @useResult
   $Res call(
-      {String name,
+      {int id,
+      String name,
       int rentPrice,
       String plateNumber,
       String fuelType,
@@ -72,6 +74,7 @@ class _$CarModelCopyWithImpl<$Res, $Val extends CarModel>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? id = null,
     Object? name = null,
     Object? rentPrice = null,
     Object? plateNumber = null,
@@ -86,6 +89,10 @@ class _$CarModelCopyWithImpl<$Res, $Val extends CarModel>
     Object? rentHouse = null,
   }) {
     return _then(_value.copyWith(
+      id: null == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as int,
       name: null == name
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
@@ -146,7 +153,8 @@ abstract class _$$_CarModelCopyWith<$Res> implements $CarModelCopyWith<$Res> {
   @override
   @useResult
   $Res call(
-      {String name,
+      {int id,
+      String name,
       int rentPrice,
       String plateNumber,
       String fuelType,
@@ -171,6 +179,7 @@ class __$$_CarModelCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? id = null,
     Object? name = null,
     Object? rentPrice = null,
     Object? plateNumber = null,
@@ -185,6 +194,10 @@ class __$$_CarModelCopyWithImpl<$Res>
     Object? rentHouse = null,
   }) {
     return _then(_$_CarModel(
+      id: null == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as int,
       name: null == name
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
@@ -241,7 +254,8 @@ class __$$_CarModelCopyWithImpl<$Res>
 @JsonSerializable()
 class _$_CarModel implements _CarModel {
   _$_CarModel(
-      {required this.name,
+      {required this.id,
+      required this.name,
       required this.rentPrice,
       required this.plateNumber,
       required this.fuelType,
@@ -259,6 +273,8 @@ class _$_CarModel implements _CarModel {
   factory _$_CarModel.fromJson(Map<String, dynamic> json) =>
       _$$_CarModelFromJson(json);
 
+  @override
+  final int id;
   @override
   final String name;
   @override
@@ -297,7 +313,7 @@ class _$_CarModel implements _CarModel {
 
   @override
   String toString() {
-    return 'CarModel(name: $name, rentPrice: $rentPrice, plateNumber: $plateNumber, fuelType: $fuelType, seatCount: $seatCount, carYear: $carYear, transmission: $transmission, wdType: $wdType, carImage: $carImage, status: $status, brand: $brand, rentHouse: $rentHouse)';
+    return 'CarModel(id: $id, name: $name, rentPrice: $rentPrice, plateNumber: $plateNumber, fuelType: $fuelType, seatCount: $seatCount, carYear: $carYear, transmission: $transmission, wdType: $wdType, carImage: $carImage, status: $status, brand: $brand, rentHouse: $rentHouse)';
   }
 
   @override
@@ -305,6 +321,7 @@ class _$_CarModel implements _CarModel {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$_CarModel &&
+            (identical(other.id, id) || other.id == id) &&
             (identical(other.name, name) || other.name == name) &&
             (identical(other.rentPrice, rentPrice) ||
                 other.rentPrice == rentPrice) &&
@@ -330,6 +347,7 @@ class _$_CarModel implements _CarModel {
   @override
   int get hashCode => Object.hash(
       runtimeType,
+      id,
       name,
       rentPrice,
       plateNumber,
@@ -359,7 +377,8 @@ class _$_CarModel implements _CarModel {
 
 abstract class _CarModel implements CarModel {
   factory _CarModel(
-      {required final String name,
+      {required final int id,
+      required final String name,
       required final int rentPrice,
       required final String plateNumber,
       required final String fuelType,
@@ -374,6 +393,8 @@ abstract class _CarModel implements CarModel {
 
   factory _CarModel.fromJson(Map<String, dynamic> json) = _$_CarModel.fromJson;
 
+  @override
+  int get id;
   @override
   String get name;
   @override

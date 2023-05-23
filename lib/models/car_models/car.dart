@@ -7,6 +7,7 @@ part 'car.g.dart';
 @freezed
 class CarModel with _$CarModel {
   factory CarModel({
+    required int id,
     required String name,
     required int rentPrice,
     required String plateNumber,

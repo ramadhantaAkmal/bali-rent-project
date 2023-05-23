@@ -331,12 +331,15 @@ class DetailMain extends ConsumerWidget {
             padding: const EdgeInsets.symmetric(horizontal: 10),
             margin: const EdgeInsets.symmetric(vertical: 10),
             child: MaterialButton(
-              onPressed: () {
-                context.push('/homescreen/detail/order');
-              },
+              onPressed: carData.status == "NotAvailable"
+                  ? null
+                  : () {
+                      context.push('/homescreen/detail/order');
+                    },
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(10.0),
               ),
+              disabledColor: Colors.grey,
               color: primaryColor,
               child: const Text(
                 'Rent It!',
