@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:bali_rent/fetchs/order_fetch.dart';
 import 'package:bali_rent/style.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
@@ -17,7 +18,8 @@ class VirtualAccountMain extends ConsumerStatefulWidget {
 
 class _VirtualAccountMainState extends ConsumerState<VirtualAccountMain> {
   bool _fetch = true;
-  String _vaText = "Loading...";
+  bool _isBtnDisabled = true;
+  String _vaText = "loading";
   final Uri _urlBca =
       Uri.parse('https://simulator.sandbox.midtrans.com/bca/va/index');
   final Uri _urlPermata =
@@ -44,7 +46,7 @@ class _VirtualAccountMainState extends ConsumerState<VirtualAccountMain> {
         _vaText = transaction["va_num"];
         log("$transaction");
       }
-      if (_vaText != "Loading...") {
+      if (_vaText != "loading") {
         _fetch = false;
         setState(() {});
         return;
@@ -68,11 +70,13 @@ class _VirtualAccountMainState extends ConsumerState<VirtualAccountMain> {
                 style: TextStyle(fontSize: 25, fontWeight: FontWeight.w500),
               ),
               Center(
-                child: Text(
-                  _vaText,
-                  style: const TextStyle(
-                      fontSize: 25, fontWeight: FontWeight.w500),
-                ),
+                child: _vaText == "loading"
+                    ? const CircularProgressIndicator()
+                    : Text(
+                        _vaText,
+                        style: const TextStyle(
+                            fontSize: 25, fontWeight: FontWeight.w500),
+                      ),
               ),
               Column(
                 children: [
@@ -89,6 +93,9 @@ class _VirtualAccountMainState extends ConsumerState<VirtualAccountMain> {
                         } else {
                           _launchUrl(_urlPermata);
                         }
+                        setState(() {
+                          _isBtnDisabled = false;
+                        });
                       },
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(10.0),
@@ -109,13 +116,19 @@ class _VirtualAccountMainState extends ConsumerState<VirtualAccountMain> {
                     padding: const EdgeInsets.symmetric(horizontal: 10),
                     margin: const EdgeInsets.symmetric(vertical: 10),
                     child: MaterialButton(
-                      onPressed: () {
-                        Navigator.of(context)
-                            .popUntil((route) => route.isFirst);
-                      },
+                      onPressed: _isBtnDisabled
+                          ? null
+                          : () {
+                              var transaction = ref.watch(orderProvider);
+                              OrderApi.checkStatus(
+                                  transaction["orderId"], transaction["token"]);
+                              Navigator.of(context)
+                                  .popUntil((route) => route.isFirst);
+                            },
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(10.0),
                       ),
+                      disabledColor: Colors.grey,
                       color: primaryColor,
                       child: const Text(
                         'Back to Homescreen',

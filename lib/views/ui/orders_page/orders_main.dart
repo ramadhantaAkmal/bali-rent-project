@@ -1,9 +1,41 @@
 import 'package:bali_rent/style.dart';
+import 'package:bali_rent/viewmodel/order_providers.dart';
 import 'package:bali_rent/views/ui/orders_page/orders_widget/order_card.dart';
+import 'package:bali_rent/views/ui/orders_page/orders_widget/order_carddone.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class OrdersMain extends StatelessWidget {
+import '../../../models/order_models/order.dart';
+import '../../../viewmodel/history_providers.dart';
+import 'orders_widget/order_cardupcoming.dart';
+
+class OrdersMain extends ConsumerStatefulWidget {
   const OrdersMain({super.key});
+
+  @override
+  ConsumerState<OrdersMain> createState() => _OrdersMainState();
+}
+
+class _OrdersMainState extends ConsumerState<OrdersMain> {
+  int _upcomingLength = 0;
+  int _historyLength = 0;
+  @override
+  void initState() {
+    ref.read(historyProvider);
+    _loadDataLength();
+    super.initState();
+  }
+
+  void _loadDataLength() async {
+    await Future.delayed(const Duration(seconds: 2));
+    setState(() {
+      _historyLength =
+          ref.read(historyProvider.notifier).filterOrders("done").length;
+      _upcomingLength =
+          ref.read(historyProvider.notifier).filterOrders("upcoming").length;
+    });
+    print(_historyLength);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -37,39 +69,118 @@ class OrdersMain extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const TabBar(
+        TabBar(
           tabs: [
-            Tab(
+            const Tab(
               text: 'Active',
             ),
             Tab(
-              text: 'Upcoming (x)',
+              text: 'Upcoming ($_upcomingLength)',
             ),
-            Tab(text: 'History (x)'),
+            Tab(text: 'History ($_historyLength)'),
           ],
           labelColor: primaryColor,
           unselectedLabelColor: Colors.black,
           dividerColor: primaryColor,
           indicatorColor: primaryColor,
-          padding: EdgeInsets.only(top: 18, left: 13, right: 30),
-          labelStyle: TextStyle(overflow: TextOverflow.visible),
-          unselectedLabelStyle: TextStyle(
+          padding: const EdgeInsets.only(top: 18, left: 13, right: 30),
+          labelStyle:
+              const TextStyle(overflow: TextOverflow.visible, fontSize: 13),
+          unselectedLabelStyle: const TextStyle(
             overflow: TextOverflow.visible,
           ),
         ),
         Expanded(
           child: Container(
-            padding: const EdgeInsets.symmetric(horizontal: 10),
-            height: MediaQuery.of(context).size.height,
-            width: 350,
-            child: ListView.builder(
-              itemBuilder: (context, index) {
-                return const OrderCard();
-              },
-              shrinkWrap: true,
-              itemCount: 10,
-            ),
-          ),
+              padding: const EdgeInsets.symmetric(horizontal: 1),
+              height: MediaQuery.of(context).size.height,
+              width: 440,
+              child: TabBarView(children: [
+                Consumer(
+                  builder: (context, ref, _) {
+                    final filtered = ref
+                        .watch(historyProvider.notifier)
+                        .filterOrders("active");
+
+                    return ListView.builder(
+                      itemBuilder: (context, index) {
+                        return Column(
+                          children: [
+                            const SizedBox(
+                              height: 20,
+                            ),
+                            context.debugDoingBuild
+                                ? Center(
+                                    child: CircularProgressIndicator(
+                                      color: Colors.amber[800],
+                                    ),
+                                  )
+                                : OrderCard(filtered[index]),
+                          ],
+                        );
+                      },
+                      itemCount: filtered.length,
+                      shrinkWrap: true,
+                    );
+                  },
+                ),
+                Consumer(
+                  builder: (context, ref, _) {
+                    final filtered = ref
+                        .watch(historyProvider.notifier)
+                        .filterOrders("upcoming");
+
+                    return ListView.builder(
+                      itemBuilder: (context, index) {
+                        return Column(
+                          children: [
+                            const SizedBox(
+                              height: 20,
+                            ),
+                            context.debugDoingBuild
+                                ? Center(
+                                    child: CircularProgressIndicator(
+                                      color: Colors.amber[800],
+                                    ),
+                                  )
+                                : UpcomingCard(filtered[index]),
+                          ],
+                        );
+                      },
+                      itemCount: filtered.length,
+                      shrinkWrap: true,
+                    );
+                  },
+                ),
+                Consumer(
+                  builder: (context, ref, _) {
+                    final filtered = ref
+                        .watch(historyProvider.notifier)
+                        .filterOrders("done");
+
+                    return ListView.builder(
+                      itemBuilder: (context, index) {
+                        return Column(
+                          children: [
+                            const SizedBox(
+                              height: 20,
+                            ),
+                            context.debugDoingBuild
+                                ? Center(
+                                    child: CircularProgressIndicator(
+                                      color: Colors.amber[800],
+                                    ),
+                                  )
+                                : OrderCardDone(filtered[index]),
+                          ],
+                        );
+                      },
+                      itemCount: filtered.length,
+                      shrinkWrap: true,
+                    );
+                  },
+                ),
+              ])),
         ),
       ],
     );

@@ -364,7 +364,7 @@ class DetailMain extends ConsumerWidget {
             padding: const EdgeInsets.symmetric(horizontal: 10),
             margin: const EdgeInsets.symmetric(vertical: 10),
             child: MaterialButton(
-              onPressed: carData.status == "NotAvailable"
+              onPressed: carData.status != "Available"
                   ? null
                   : () {
                       context.push('/homescreen/detail/order');

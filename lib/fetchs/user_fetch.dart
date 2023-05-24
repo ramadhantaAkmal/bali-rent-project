@@ -4,21 +4,23 @@ import 'dart:io';
 import 'package:http/http.dart' as http;
 import 'package:http_parser/http_parser.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../models/user_models/user.dart';
 
 class UserApi {
   static const String url = 'http://10.0.2.2:3000/api/users';
 
-  static getuser(String accessToken) async {
+  static getuser(int userId, String access_token) async {
     try {
-      Uri a = Uri.parse('$url/detail/');
+      String id = userId.toString();
+      Uri a = Uri.parse('$url/detail/$id');
 
       final response = await http.get(
         a,
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
-          'access_token': accessToken,
+          'access_token': access_token,
         },
       );
       if (response.statusCode == 200) {
@@ -185,6 +187,37 @@ class UserApi {
       final statusCode = response.statusCode;
       log("error code: $statusCode");
       return "Update Faileds";
+    } catch (e) {
+      return e;
+    }
+  }
+
+  static deleteUser() async {
+    try {
+      SharedPreferences pref = await SharedPreferences.getInstance();
+      var token = json.decode(pref.getString("token")!);
+      var accessToken = token["access_token"];
+      var id = token["id"];
+
+      String checkLink = "$url/$id";
+
+      final response = await http.delete(
+        Uri.parse(checkLink),
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+          'access_token': accessToken,
+        },
+      );
+      if (response.statusCode == 200) {
+        final body = json.decode(response.body);
+        return body;
+      } else {
+        final statusCode = response.statusCode;
+        final body = json.decode(response.body);
+        final message = body["message"];
+        log("error code: $statusCode");
+        return message;
+      }
     } catch (e) {
       return e;
     }

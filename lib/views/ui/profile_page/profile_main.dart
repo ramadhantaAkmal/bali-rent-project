@@ -1,3 +1,4 @@
+import 'package:bali_rent/fetchs/user_fetch.dart';
 import 'package:bali_rent/models/user_models/user.dart';
 import 'package:bali_rent/style.dart';
 import 'package:flutter/material.dart';
@@ -43,6 +44,7 @@ class _ProfileMainState extends ConsumerState<ProfileMain> {
             SharedPreferences preferences =
                 await SharedPreferences.getInstance();
             await preferences.clear();
+            ref.invalidate(userProvider);
             context.pushReplacement('/');
           },
           child: const Text(
@@ -83,7 +85,9 @@ class _ProfileMainState extends ConsumerState<ProfileMain> {
                 ),
                 child: CircleAvatar(
                   radius: 45,
-                  backgroundImage: NetworkImage(user.profilePicture),
+                  backgroundImage: AssetImage('assets/images/emptypp.jpg'),
+                  foregroundImage: NetworkImage(user.profilePicture),
+                  backgroundColor: Colors.grey,
                 ),
               ),
               const SizedBox(
@@ -154,8 +158,14 @@ class _ProfileMainState extends ConsumerState<ProfileMain> {
                     context.push('/homescreen/changepass');
                   }),
                   const Divider(height: 20, thickness: 1),
-                  _rowMenuBuilder(context, 'About Us', Icons.info_rounded, () {
-                    context.push('/homescreen/about');
+                  _rowMenuBuilder(context, 'Delete My Account', Icons.delete,
+                      () async {
+                    SharedPreferences preferences =
+                        await SharedPreferences.getInstance();
+                    UserApi.deleteUser();
+                    ref.invalidate(userProvider);
+                    await preferences.clear();
+                    context.pushReplacement('/');
                   }),
                 ],
               ),
@@ -180,15 +190,21 @@ class _ProfileMainState extends ConsumerState<ProfileMain> {
           children: [
             Row(
               children: [
-                Icon(icon),
+                Icon(
+                  icon,
+                  color:
+                      text == 'Delete My Account' ? Colors.red : Colors.black,
+                ),
                 const SizedBox(
                   width: 20,
                 ),
                 Text(
                   text,
-                  style: const TextStyle(
+                  style: TextStyle(
                     fontSize: 14,
                     fontWeight: FontWeight.w600,
+                    color:
+                        text == 'Delete My Account' ? Colors.red : Colors.black,
                   ),
                 ),
               ],

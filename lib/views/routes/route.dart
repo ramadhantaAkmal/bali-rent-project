@@ -1,4 +1,3 @@
-import 'package:bali_rent/views/ui/aboutus_page/aboutuse_main.dart';
 import 'package:bali_rent/views/ui/carlist_page/carlist_main.dart';
 import 'package:bali_rent/views/ui/change_password_page/change_password_main.dart';
 import 'package:bali_rent/views/ui/detail_page/detail_main.dart';
@@ -59,12 +58,6 @@ final GoRouter router = GoRouter(
                 path: 'changepass',
                 builder: (BuildContext context, GoRouterState state) {
                   return const ChangePassMain();
-                },
-              ),
-              GoRoute(
-                path: 'about',
-                builder: (BuildContext context, GoRouterState state) {
-                  return const AboutUsMain();
                 },
               ),
               GoRoute(
