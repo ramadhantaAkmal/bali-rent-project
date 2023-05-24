@@ -28,7 +28,6 @@ class OrderNotifier extends StateNotifier<Map<String, dynamic>> {
 
     var res = await OrderApi.inputOrder(bank, dateToday, startDate, finishDate,
         carId, amount, token["access_token"]);
-    print(res);
     var dataRes;
     state = {};
     try {

@@ -1,5 +1,4 @@
 import 'package:bali_rent/views/routes/route.dart';
-import 'package:bali_rent/views/ui/welcome_page/welcome_main.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 

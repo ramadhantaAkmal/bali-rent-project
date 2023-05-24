@@ -156,14 +156,14 @@ class _RegisterMainState extends State<RegisterMain> {
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Spacer(
+          const Spacer(
             flex: 1,
           ),
-          Flexible(
+          const Flexible(
             flex: 3,
             child: Padding(
-              padding: const EdgeInsets.symmetric(vertical: 35),
-              child: const Text.rich(
+              padding: EdgeInsets.symmetric(vertical: 35),
+              child: Text.rich(
                 TextSpan(
                   style: TextStyle(fontSize: 24),
                   children: [

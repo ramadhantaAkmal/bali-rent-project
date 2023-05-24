@@ -42,7 +42,7 @@ class _HomescreenMainState extends State<HomescreenMain> {
   void _onItemTapped(int index) async {
     SharedPreferences pref = await SharedPreferences.getInstance();
 
-    // try catch used to check if token exist
+    // try catch and token variable used to check if token exist
     try {
       var token = jsonDecode(pref.getString("token")!);
       setState(() {

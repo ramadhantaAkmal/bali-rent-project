@@ -100,7 +100,7 @@ class _CarListMainState extends ConsumerState<CarListMain> {
                   margin: const EdgeInsets.all(16),
                   child: TextField(
                     controller: _searchController,
-                    decoration: InputDecoration(
+                    decoration: const InputDecoration(
                       fillColor: themeColor,
                       prefixIconColor: themeColor,
                       prefixIcon: Icon(Icons.search),
@@ -127,12 +127,24 @@ class _CarListMainState extends ConsumerState<CarListMain> {
               Expanded(
                 flex: 2,
                 child: OutlinedButton(
+                  style: OutlinedButton.styleFrom(
+                    alignment: Alignment.centerLeft,
+                    fixedSize: const Size(75, 40),
+                    side: const BorderSide(
+                      strokeAlign: 10,
+                      color: themeColor,
+                    ),
+                  ),
+                  onPressed: () {
+                    showCarSelectionDialog(context, brandRef);
+                    // _onShowFilters(_brandRef);
+                  },
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
+                    children: const [
                       Flexible(
                         flex: 3,
-                        child: const Text(
+                        child: Text(
                           "Filter",
                           textAlign: TextAlign.left,
                           style: TextStyle(color: Colors.black),
@@ -147,18 +159,6 @@ class _CarListMainState extends ConsumerState<CarListMain> {
                       ),
                     ],
                   ),
-                  style: OutlinedButton.styleFrom(
-                    alignment: Alignment.centerLeft,
-                    fixedSize: const Size(75, 40),
-                    side: const BorderSide(
-                      strokeAlign: 10,
-                      color: themeColor,
-                    ),
-                  ),
-                  onPressed: () {
-                    showCarSelectionDialog(context, brandRef);
-                    // _onShowFilters(_brandRef);
-                  },
                 ),
               ),
             ],

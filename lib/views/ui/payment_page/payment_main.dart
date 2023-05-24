@@ -61,7 +61,7 @@ class PaymentMain extends ConsumerWidget {
       padding: const EdgeInsets.symmetric(horizontal: 20),
       child: Column(
         children: [
-          Text(
+          const Text(
             'Choose one of this payment method to generate VA numbers',
             style: TextStyle(
               color: Colors.black,
@@ -69,23 +69,23 @@ class PaymentMain extends ConsumerWidget {
               fontWeight: FontWeight.w700,
             ),
           ),
-          SizedBox(
+          const SizedBox(
             height: 10,
           ),
           _buildImage(
               'BCA',
-              Image(
+              const Image(
                 image: AssetImage('assets/images/bca.jpg'),
                 fit: BoxFit.contain,
               ),
               context,
               ref),
-          SizedBox(
+          const SizedBox(
             height: 10,
           ),
           _buildImage(
               'permata',
-              Image(
+              const Image(
                 image: AssetImage('assets/images/permata-bank-vector-logo.png'),
                 fit: BoxFit.contain,
               ),
@@ -99,23 +99,23 @@ class PaymentMain extends ConsumerWidget {
   Widget _buildImage(
       String method, Image imagePath, BuildContext context, WidgetRef ref) {
     return InkWell(
-      borderRadius: BorderRadius.all(Radius.circular(15.0)),
+      borderRadius: const BorderRadius.all(Radius.circular(15.0)),
       onTap: (() {
         ref.watch(orderProvider.notifier).addOrder(method);
         context.push('/homescreen/detail/order/method/payment');
       }),
       child: Container(
-        padding: EdgeInsets.symmetric(horizontal: 40),
+        padding: const EdgeInsets.symmetric(horizontal: 40),
         decoration: BoxDecoration(
           border: Border.all(
             color: Colors.grey,
           ),
-          borderRadius: BorderRadius.all(Radius.circular(15.0)),
+          borderRadius: const BorderRadius.all(Radius.circular(15.0)),
         ),
         height: 80,
         width: 325,
         child: ClipRRect(
-          borderRadius: BorderRadius.all(Radius.circular(15.0)),
+          borderRadius: const BorderRadius.all(Radius.circular(15.0)),
           child: imagePath,
         ),
       ),

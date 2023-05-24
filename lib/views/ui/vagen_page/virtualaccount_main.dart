@@ -1,8 +1,9 @@
+import 'dart:developer';
+
 import 'package:bali_rent/style.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:go_router/go_router.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../../viewmodel/order_providers.dart';
@@ -32,8 +33,8 @@ class _VirtualAccountMainState extends ConsumerState<VirtualAccountMain> {
     super.initState();
   }
 
-  void _launchUrl(_url) async {
-    if (!await launchUrl(_url)) throw 'Could not launch $_url';
+  void _launchUrl(url) async {
+    if (!await launchUrl(url)) throw 'Could not launch $url';
   }
 
   void _loadVA() async {
@@ -41,14 +42,14 @@ class _VirtualAccountMainState extends ConsumerState<VirtualAccountMain> {
       var transaction = ref.watch(orderProvider);
       if (transaction["bank"] != null) {
         _vaText = transaction["va_num"];
-        print(transaction);
+        log("$transaction");
       }
       if (_vaText != "Loading...") {
         _fetch = false;
         setState(() {});
         return;
       }
-      await Future.delayed(Duration(seconds: 3));
+      await Future.delayed(const Duration(seconds: 3));
     }
   }
 
@@ -62,14 +63,15 @@ class _VirtualAccountMainState extends ConsumerState<VirtualAccountMain> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text(
+              const Text(
                 'Your Virtual Account Number',
                 style: TextStyle(fontSize: 25, fontWeight: FontWeight.w500),
               ),
               Center(
                 child: Text(
                   _vaText,
-                  style: TextStyle(fontSize: 25, fontWeight: FontWeight.w500),
+                  style: const TextStyle(
+                      fontSize: 25, fontWeight: FontWeight.w500),
                 ),
               ),
               Column(
@@ -92,7 +94,7 @@ class _VirtualAccountMainState extends ConsumerState<VirtualAccountMain> {
                         borderRadius: BorderRadius.circular(10.0),
                       ),
                       color: primaryColor,
-                      child: Text(
+                      child: const Text(
                         'Open Midtrans',
                         style: TextStyle(
                           fontSize: 18,
@@ -115,7 +117,7 @@ class _VirtualAccountMainState extends ConsumerState<VirtualAccountMain> {
                         borderRadius: BorderRadius.circular(10.0),
                       ),
                       color: primaryColor,
-                      child: Text(
+                      child: const Text(
                         'Back to Homescreen',
                         style: TextStyle(
                           fontSize: 18,

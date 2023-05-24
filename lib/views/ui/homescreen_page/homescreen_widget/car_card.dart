@@ -43,7 +43,7 @@ class CarCard extends ConsumerWidget {
           ),
           onTap: () async {
             SharedPreferences pref = await SharedPreferences.getInstance();
-            // try catch used to check if token exist
+            // try catch and token used to check if token exist
             try {
               var token = jsonDecode(pref.getString("token")!);
               ref
@@ -79,8 +79,8 @@ class CarCard extends ConsumerWidget {
                     color: backgroundColor,
                     borderRadius: const BorderRadius.all(Radius.circular(10)),
                     border: Border.all(color: Colors.grey),
-                    boxShadow: [
-                      const BoxShadow(
+                    boxShadow: const [
+                      BoxShadow(
                         color: Colors.grey,
                         blurStyle: BlurStyle.solid,
                         spreadRadius: 1,

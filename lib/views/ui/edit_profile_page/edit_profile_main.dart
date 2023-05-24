@@ -78,27 +78,27 @@ class _EditProfileMainState extends ConsumerState<EditProfileMain> {
                         await _picker.pickImage(source: ImageSource.camera);
                     setState(() {});
                   },
-                  child: Container(
+                  child: SizedBox(
                     height: 50,
                     child: Row(
-                      children: [
+                      children: const [
                         Icon(Icons.photo_camera),
                         Text(' Take picture from Camera '),
                       ],
                     ),
                   ),
                 ),
-                Divider(),
+                const Divider(),
                 InkWell(
                   onTap: () async {
                     _imageFile =
                         await _picker.pickImage(source: ImageSource.gallery);
                     setState(() {});
                   },
-                  child: Container(
+                  child: SizedBox(
                     height: 50,
                     child: Row(
-                      children: [
+                      children: const [
                         Icon(Icons.photo_library),
                         Text(' Browse from gallery '),
                       ],

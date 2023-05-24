@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 
 import 'package:bali_rent/style.dart';
 import 'package:bali_rent/viewmodel/user_providers.dart';
@@ -42,7 +43,7 @@ class _LoginMainState extends ConsumerState<LoginMain> {
 
     // print(result);
     if (result is String) {
-      print(result);
+      log(result);
     } else {
       SharedPreferences pref = await SharedPreferences.getInstance();
       await pref.setString('token', jsonEncode(result));

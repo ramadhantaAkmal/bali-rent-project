@@ -7,7 +7,7 @@ import '../fetchs/renthouse_fetch.dart';
 import '../models/car_models/car.dart';
 
 class DetailNotifier extends StateNotifier<Map<String, Object>> {
-  DetailNotifier() : super({"": {}, "": {}});
+  DetailNotifier() : super({"": {}});
 
   void getCarDetails(CarModel car, int id) async {
     try {

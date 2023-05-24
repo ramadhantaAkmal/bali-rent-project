@@ -25,7 +25,7 @@ class _CarSelectionDialogState extends ConsumerState<CarSelectionDialog> {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      title: Text('Filter Car'),
+      title: const Text('Filter Car'),
       content: SizedBox(
         height: 400,
         child: SingleChildScrollView(
@@ -33,7 +33,7 @@ class _CarSelectionDialogState extends ConsumerState<CarSelectionDialog> {
             mainAxisSize: MainAxisSize.min,
             children: [
               // Radio buttons for car brands
-              Text(
+              const Text(
                 'Filter Brand',
                 style: TextStyle(fontWeight: FontWeight.w500),
               ),
@@ -52,11 +52,11 @@ class _CarSelectionDialogState extends ConsumerState<CarSelectionDialog> {
                   ),
                 ),
               // Checkbox for availability
-              Divider(),
-              Text('Filter Status',
+              const Divider(),
+              const Text('Filter Status',
                   style: TextStyle(fontWeight: FontWeight.w500)),
               ListTile(
-                title: Text("Available"),
+                title: const Text("Available"),
                 leading: Radio<String>(
                   value: "available",
                   groupValue: selectedStatus,
@@ -68,7 +68,7 @@ class _CarSelectionDialogState extends ConsumerState<CarSelectionDialog> {
                 ),
               ),
               ListTile(
-                title: Text("Not Available"),
+                title: const Text("Not Available"),
                 leading: Radio<String>(
                   value: "notavailable",
                   groupValue: selectedStatus,
@@ -80,7 +80,7 @@ class _CarSelectionDialogState extends ConsumerState<CarSelectionDialog> {
                 ),
               ),
               ListTile(
-                title: Text("All Status"),
+                title: const Text("All Status"),
                 leading: Radio<String>(
                   value: "all",
                   groupValue: selectedStatus,
@@ -114,7 +114,7 @@ class _CarSelectionDialogState extends ConsumerState<CarSelectionDialog> {
 
             Navigator.of(context).pop();
           },
-          child: Text('Ok'),
+          child: const Text('Ok'),
         ),
       ],
     );
