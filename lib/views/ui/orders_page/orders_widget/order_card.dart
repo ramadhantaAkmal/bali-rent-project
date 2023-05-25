@@ -236,7 +236,7 @@ class OrderCard extends StatelessWidget {
                         locale: 'id',
                         symbol: 'Rp ',
                         decimalDigits: 2,
-                      ).format(1600000),
+                      ).format(orderData.totalFare),
                       style: const TextStyle(
                         color: primaryColor,
                       ),

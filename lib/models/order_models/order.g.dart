@@ -17,6 +17,7 @@ _$_OrderModel _$$_OrderModelFromJson(Map<String, dynamic> json) =>
       rentHouseId: json['rentHouseId'] as int,
       paymentId: json['paymentId'] as String,
       transactionStatus: json['transactionStatus'] as String,
+      totalFare: json['totalFare'] as int,
       car: json['car'] as Map<String, dynamic>,
       rentHouse: json['rentHouse'] as Map<String, dynamic>,
     );
@@ -32,6 +33,7 @@ Map<String, dynamic> _$$_OrderModelToJson(_$_OrderModel instance) =>
       'rentHouseId': instance.rentHouseId,
       'paymentId': instance.paymentId,
       'transactionStatus': instance.transactionStatus,
+      'totalFare': instance.totalFare,
       'car': instance.car,
       'rentHouse': instance.rentHouse,
     };

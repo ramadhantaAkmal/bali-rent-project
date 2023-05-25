@@ -285,7 +285,7 @@ class _OrderCardDoneState extends ConsumerState<OrderCardDone> {
                         locale: 'id',
                         symbol: 'Rp ',
                         decimalDigits: 2,
-                      ).format(1600000),
+                      ).format(widget.orderData.totalFare),
                       style: const TextStyle(
                         color: primaryColor,
                       ),

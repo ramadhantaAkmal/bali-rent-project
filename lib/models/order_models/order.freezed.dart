@@ -29,6 +29,7 @@ mixin _$OrderModel {
   int get rentHouseId => throw _privateConstructorUsedError;
   String get paymentId => throw _privateConstructorUsedError;
   String get transactionStatus => throw _privateConstructorUsedError;
+  int get totalFare => throw _privateConstructorUsedError;
   Map<dynamic, dynamic> get car => throw _privateConstructorUsedError;
   Map<dynamic, dynamic> get rentHouse => throw _privateConstructorUsedError;
 
@@ -54,6 +55,7 @@ abstract class $OrderModelCopyWith<$Res> {
       int rentHouseId,
       String paymentId,
       String transactionStatus,
+      int totalFare,
       Map<dynamic, dynamic> car,
       Map<dynamic, dynamic> rentHouse});
 }
@@ -80,6 +82,7 @@ class _$OrderModelCopyWithImpl<$Res, $Val extends OrderModel>
     Object? rentHouseId = null,
     Object? paymentId = null,
     Object? transactionStatus = null,
+    Object? totalFare = null,
     Object? car = null,
     Object? rentHouse = null,
   }) {
@@ -120,6 +123,10 @@ class _$OrderModelCopyWithImpl<$Res, $Val extends OrderModel>
           ? _value.transactionStatus
           : transactionStatus // ignore: cast_nullable_to_non_nullable
               as String,
+      totalFare: null == totalFare
+          ? _value.totalFare
+          : totalFare // ignore: cast_nullable_to_non_nullable
+              as int,
       car: null == car
           ? _value.car
           : car // ignore: cast_nullable_to_non_nullable
@@ -150,6 +157,7 @@ abstract class _$$_OrderModelCopyWith<$Res>
       int rentHouseId,
       String paymentId,
       String transactionStatus,
+      int totalFare,
       Map<dynamic, dynamic> car,
       Map<dynamic, dynamic> rentHouse});
 }
@@ -174,6 +182,7 @@ class __$$_OrderModelCopyWithImpl<$Res>
     Object? rentHouseId = null,
     Object? paymentId = null,
     Object? transactionStatus = null,
+    Object? totalFare = null,
     Object? car = null,
     Object? rentHouse = null,
   }) {
@@ -214,6 +223,10 @@ class __$$_OrderModelCopyWithImpl<$Res>
           ? _value.transactionStatus
           : transactionStatus // ignore: cast_nullable_to_non_nullable
               as String,
+      totalFare: null == totalFare
+          ? _value.totalFare
+          : totalFare // ignore: cast_nullable_to_non_nullable
+              as int,
       car: null == car
           ? _value._car
           : car // ignore: cast_nullable_to_non_nullable
@@ -239,6 +252,7 @@ class _$_OrderModel implements _OrderModel {
       required this.rentHouseId,
       required this.paymentId,
       required this.transactionStatus,
+      required this.totalFare,
       required final Map<dynamic, dynamic> car,
       required final Map<dynamic, dynamic> rentHouse})
       : _car = car,
@@ -265,6 +279,8 @@ class _$_OrderModel implements _OrderModel {
   final String paymentId;
   @override
   final String transactionStatus;
+  @override
+  final int totalFare;
   final Map<dynamic, dynamic> _car;
   @override
   Map<dynamic, dynamic> get car {
@@ -283,7 +299,7 @@ class _$_OrderModel implements _OrderModel {
 
   @override
   String toString() {
-    return 'OrderModel(id: $id, orderDate: $orderDate, startDate: $startDate, finishDate: $finishDate, carId: $carId, userId: $userId, rentHouseId: $rentHouseId, paymentId: $paymentId, transactionStatus: $transactionStatus, car: $car, rentHouse: $rentHouse)';
+    return 'OrderModel(id: $id, orderDate: $orderDate, startDate: $startDate, finishDate: $finishDate, carId: $carId, userId: $userId, rentHouseId: $rentHouseId, paymentId: $paymentId, transactionStatus: $transactionStatus, totalFare: $totalFare, car: $car, rentHouse: $rentHouse)';
   }
 
   @override
@@ -306,6 +322,8 @@ class _$_OrderModel implements _OrderModel {
                 other.paymentId == paymentId) &&
             (identical(other.transactionStatus, transactionStatus) ||
                 other.transactionStatus == transactionStatus) &&
+            (identical(other.totalFare, totalFare) ||
+                other.totalFare == totalFare) &&
             const DeepCollectionEquality().equals(other._car, _car) &&
             const DeepCollectionEquality()
                 .equals(other._rentHouse, _rentHouse));
@@ -324,6 +342,7 @@ class _$_OrderModel implements _OrderModel {
       rentHouseId,
       paymentId,
       transactionStatus,
+      totalFare,
       const DeepCollectionEquality().hash(_car),
       const DeepCollectionEquality().hash(_rentHouse));
 
@@ -352,6 +371,7 @@ abstract class _OrderModel implements OrderModel {
       required final int rentHouseId,
       required final String paymentId,
       required final String transactionStatus,
+      required final int totalFare,
       required final Map<dynamic, dynamic> car,
       required final Map<dynamic, dynamic> rentHouse}) = _$_OrderModel;
 
@@ -376,6 +396,8 @@ abstract class _OrderModel implements OrderModel {
   String get paymentId;
   @override
   String get transactionStatus;
+  @override
+  int get totalFare;
   @override
   Map<dynamic, dynamic> get car;
   @override

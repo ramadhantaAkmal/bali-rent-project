@@ -15,6 +15,7 @@ class OrderModel with _$OrderModel {
     required int rentHouseId,
     required String paymentId,
     required String transactionStatus,
+    required int totalFare,
     required Map<dynamic, dynamic> car,
     required Map<dynamic, dynamic> rentHouse,
   }) = _OrderModel;

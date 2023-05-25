@@ -14,7 +14,10 @@ class HistoryNotifier extends StateNotifier<List<OrderModel>> {
   void getOrders() async {
     var orderResponse = await OrderApi.getOrders();
     var orderDatas = orderResponse["data"];
+
     state = orderDatas.map<OrderModel>((data) {
+      List<String> dataArray = data["paymentId"].split('-');
+      int totalFare = int.parse(dataArray[2]);
       return OrderModel.fromJson({
         "id": data["id"],
         "orderDate": data["orderDate"],
@@ -25,6 +28,7 @@ class HistoryNotifier extends StateNotifier<List<OrderModel>> {
         "rentHouseId": data["rentHouseId"],
         "paymentId": data["paymentId"],
         "transactionStatus": data["transactionStatus"],
+        "totalFare": totalFare,
         "car": data["car"],
         "rentHouse": data["rentHouse"],
       });

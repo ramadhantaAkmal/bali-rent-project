@@ -251,6 +251,7 @@ class _UpcomingCardState extends ConsumerState<UpcomingCard> {
                                     ref
                                         .read(historyProvider.notifier)
                                         .getOrders();
+
                                     DefaultTabController.of(context).index = 0;
                                     HomescreenMain.restartApp(context);
                                   },
@@ -287,7 +288,7 @@ class _UpcomingCardState extends ConsumerState<UpcomingCard> {
                         locale: 'id',
                         symbol: 'Rp ',
                         decimalDigits: 2,
-                      ).format(1600000),
+                      ).format(widget.orderData.totalFare),
                       style: const TextStyle(
                         color: primaryColor,
                       ),
