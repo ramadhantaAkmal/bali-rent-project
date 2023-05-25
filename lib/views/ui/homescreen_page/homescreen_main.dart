@@ -4,27 +4,57 @@ import 'package:bali_rent/style.dart';
 import 'package:bali_rent/views/ui/orders_page/orders_main.dart';
 import 'package:bali_rent/views/ui/profile_page/profile_main.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 
+import '../../../viewmodel/brand_providers.dart';
+import '../../../viewmodel/car_providers.dart';
+import '../../../viewmodel/history_providers.dart';
 import 'homepage.dart';
 
-class HomescreenMain extends StatefulWidget {
+class HomescreenMain extends ConsumerStatefulWidget {
   const HomescreenMain({super.key});
 
+  static void restartApp(BuildContext context) {
+    context.findAncestorStateOfType<_HomescreenMainState>()?.restartApp();
+  }
+
   @override
-  State<HomescreenMain> createState() => _HomescreenMainState();
+  ConsumerState<HomescreenMain> createState() => _HomescreenMainState();
 }
 
-class _HomescreenMainState extends State<HomescreenMain> {
+class _HomescreenMainState extends ConsumerState<HomescreenMain> {
   int _selectedIndex = 0;
+  Key key = UniqueKey();
 
   final screenBody = [
     const Homepage(),
     const OrdersMain(),
     const ProfileMain(),
   ];
+
+  void restartApp() {
+    setState(() {
+      key = UniqueKey();
+    });
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    ref.read(brandProvider);
+    ref.read(carProvider);
+    ref.read(historyProvider);
+    super.initState();
+    SchedulerBinding.instance.addPostFrameCallback((_) {
+      ref.read(brandProvider.notifier).getBrands();
+      ref.read(carProvider.notifier).getCars();
+      ref.read(historyProvider.notifier).getOrders();
+    });
+  }
 
   @override
   Widget build(BuildContext context) {

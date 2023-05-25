@@ -20,8 +20,7 @@ class UserNotifier extends StateNotifier<UserModel> {
     try {
       SharedPreferences pref = await SharedPreferences.getInstance();
       var token = json.decode(pref.getString("token")!);
-      var userData = await UserApi.getuser(token["id"], token["access_token"]);
-      print(userData);
+      var userData = await UserApi.getuser(token["access_token"]);
       state = state.copyWith(
         nama: userData["data"]["name"],
         username: userData["data"]["username"],

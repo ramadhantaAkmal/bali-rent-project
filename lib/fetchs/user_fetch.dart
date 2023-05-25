@@ -11,10 +11,9 @@ import '../models/user_models/user.dart';
 class UserApi {
   static const String url = 'http://10.0.2.2:3000/api/users';
 
-  static getuser(int userId, String access_token) async {
+  static getuser(String access_token) async {
     try {
-      String id = userId.toString();
-      Uri a = Uri.parse('$url/detail/$id');
+      Uri a = Uri.parse('$url/detail');
 
       final response = await http.get(
         a,
@@ -197,9 +196,8 @@ class UserApi {
       SharedPreferences pref = await SharedPreferences.getInstance();
       var token = json.decode(pref.getString("token")!);
       var accessToken = token["access_token"];
-      var id = token["id"];
 
-      String checkLink = "$url/$id";
+      String checkLink = url;
 
       final response = await http.delete(
         Uri.parse(checkLink),

@@ -22,8 +22,8 @@ class _OrdersMainState extends ConsumerState<OrdersMain> {
   @override
   void initState() {
     ref.read(historyProvider);
-    _loadDataLength();
     super.initState();
+    _loadDataLength();
   }
 
   void _loadDataLength() async {
@@ -34,7 +34,6 @@ class _OrdersMainState extends ConsumerState<OrdersMain> {
       _upcomingLength =
           ref.read(historyProvider.notifier).filterOrders("upcoming").length;
     });
-    print(_historyLength);
   }
 
   @override
@@ -70,6 +69,18 @@ class _OrdersMainState extends ConsumerState<OrdersMain> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         TabBar(
+          onTap: (value) {
+            setState(() {
+              _historyLength = ref
+                  .read(historyProvider.notifier)
+                  .filterOrders("done")
+                  .length;
+              _upcomingLength = ref
+                  .read(historyProvider.notifier)
+                  .filterOrders("upcoming")
+                  .length;
+            });
+          },
           tabs: [
             const Tab(
               text: 'Active',
@@ -110,10 +121,8 @@ class _OrdersMainState extends ConsumerState<OrdersMain> {
                               height: 20,
                             ),
                             context.debugDoingBuild
-                                ? Center(
-                                    child: CircularProgressIndicator(
-                                      color: Colors.amber[800],
-                                    ),
+                                ? const Center(
+                                    child: CircularProgressIndicator(),
                                   )
                                 : OrderCard(filtered[index]),
                           ],
@@ -138,10 +147,8 @@ class _OrdersMainState extends ConsumerState<OrdersMain> {
                               height: 20,
                             ),
                             context.debugDoingBuild
-                                ? Center(
-                                    child: CircularProgressIndicator(
-                                      color: Colors.amber[800],
-                                    ),
+                                ? const Center(
+                                    child: CircularProgressIndicator(),
                                   )
                                 : UpcomingCard(filtered[index]),
                           ],
@@ -166,10 +173,8 @@ class _OrdersMainState extends ConsumerState<OrdersMain> {
                               height: 20,
                             ),
                             context.debugDoingBuild
-                                ? Center(
-                                    child: CircularProgressIndicator(
-                                      color: Colors.amber[800],
-                                    ),
+                                ? const Center(
+                                    child: CircularProgressIndicator(),
                                   )
                                 : OrderCardDone(filtered[index]),
                           ],

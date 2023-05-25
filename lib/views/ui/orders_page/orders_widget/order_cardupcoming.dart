@@ -1,12 +1,16 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:bali_rent/fetchs/order_fetch.dart';
+import 'package:bali_rent/viewmodel/order_providers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 
 import '../../../../models/order_models/order.dart';
 import '../../../../style.dart';
 import '../../../../viewmodel/car_providers.dart';
+import '../../../../viewmodel/history_providers.dart';
+import '../../homescreen_page/homescreen_main.dart';
 
 class UpcomingCard extends ConsumerStatefulWidget {
   const UpcomingCard(this.orderData, {super.key});
@@ -22,6 +26,7 @@ class _UpcomingCardState extends ConsumerState<UpcomingCard> {
     // TODO: implement initState
     super.initState();
     ref.read(carProvider);
+    ref.read(historyProvider);
   }
 
   @override
@@ -239,10 +244,15 @@ class _UpcomingCardState extends ConsumerState<UpcomingCard> {
                                 width: 200,
                                 child: MaterialButton(
                                   padding: const EdgeInsets.only(top: 3),
-                                  onPressed: () {
-                                    OrderApi.deleteOrder(widget.orderData.id);
+                                  onPressed: () async {
+                                    await OrderApi.deleteOrder(
+                                        widget.orderData.id);
                                     ref.read(carProvider.notifier).getCars();
-                                    setState(() {});
+                                    ref
+                                        .read(historyProvider.notifier)
+                                        .getOrders();
+                                    DefaultTabController.of(context).index = 0;
+                                    HomescreenMain.restartApp(context);
                                   },
                                   color: Colors.red,
                                   child: const Text(

@@ -162,7 +162,7 @@ class _ProfileMainState extends ConsumerState<ProfileMain> {
                       () async {
                     SharedPreferences preferences =
                         await SharedPreferences.getInstance();
-                    UserApi.deleteUser();
+                    await UserApi.deleteUser();
                     ref.invalidate(userProvider);
                     await preferences.clear();
                     context.pushReplacement('/');

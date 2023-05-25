@@ -7,7 +7,8 @@ class BrandsNotifier extends StateNotifier<List<BrandModel>> {
       : super(initialBrands ?? []);
 
   void getBrands() async {
-    var brandDatas = await BrandApi.getBrands();
+    var brandDatasRaw = await BrandApi.getBrands();
+    var brandDatas = brandDatasRaw["data"];
     state = brandDatas.map<BrandModel>((data) {
       return BrandModel.fromJson({
         "brandName": data["brandName"],

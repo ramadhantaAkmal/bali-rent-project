@@ -1,13 +1,32 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:bali_rent/models/order_models/order.dart';
+import 'package:bali_rent/views/ui/homescreen_page/homescreen_main.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 
+import '../../../../fetchs/order_fetch.dart';
 import '../../../../style.dart';
+import '../../../../viewmodel/car_providers.dart';
+import '../../../../viewmodel/history_providers.dart';
 
-class OrderCardDone extends StatelessWidget {
+class OrderCardDone extends ConsumerStatefulWidget {
   const OrderCardDone(this.orderData, {super.key});
   final OrderModel orderData;
+
+  @override
+  ConsumerState<OrderCardDone> createState() => _OrderCardDoneState();
+}
+
+class _OrderCardDoneState extends ConsumerState<OrderCardDone> {
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    ref.read(carProvider);
+    ref.read(historyProvider);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -49,7 +68,7 @@ class OrderCardDone extends StatelessWidget {
                     const SizedBox(
                       width: 10,
                     ),
-                    Text(orderData.paymentId),
+                    Text(widget.orderData.paymentId),
                     const Spacer(),
                     Container(
                       decoration: const BoxDecoration(
@@ -81,7 +100,8 @@ class OrderCardDone extends StatelessWidget {
                           //Car image
                           image: DecorationImage(
                               fit: BoxFit.cover,
-                              image: NetworkImage(orderData.car["carImage"])),
+                              image: NetworkImage(
+                                  widget.orderData.car["carImage"])),
                           color: backgroundColor,
                           borderRadius:
                               const BorderRadius.all(Radius.circular(10)),
@@ -106,7 +126,7 @@ class OrderCardDone extends StatelessWidget {
                           children: [
                             //Car Name
                             Text(
-                              orderData.car["name"],
+                              widget.orderData.car["name"],
                               style: const TextStyle(
                                 fontSize: 15,
                                 fontFamily: 'Poppins',
@@ -115,7 +135,7 @@ class OrderCardDone extends StatelessWidget {
                             ),
                             //car address
                             AutoSizeText(
-                              orderData.rentHouse["address"],
+                              widget.orderData.rentHouse["address"],
                               style: const TextStyle(
                                 fontFamily: 'Poppins',
                                 color: Colors.grey,
@@ -140,7 +160,7 @@ class OrderCardDone extends StatelessWidget {
                               child: Padding(
                                 padding: const EdgeInsets.all(3.0),
                                 child: Text(
-                                  orderData.car["plateNumber"],
+                                  widget.orderData.car["plateNumber"],
                                   style: const TextStyle(
                                     fontWeight: FontWeight.bold,
                                     fontSize: 13,
@@ -172,7 +192,7 @@ class OrderCardDone extends StatelessWidget {
                                         ),
                                         Text(
                                           dateFormat.format(DateTime.parse(
-                                              orderData.startDate)),
+                                              widget.orderData.startDate)),
                                           style: const TextStyle(
                                               fontSize: 12,
                                               fontWeight: FontWeight.bold),
@@ -201,7 +221,7 @@ class OrderCardDone extends StatelessWidget {
                                         ),
                                         Text(
                                           dateFormat.format(DateTime.parse(
-                                              orderData.finishDate)),
+                                              widget.orderData.finishDate)),
                                           style: const TextStyle(
                                               fontSize: 12,
                                               fontWeight: FontWeight.bold),
@@ -222,7 +242,16 @@ class OrderCardDone extends StatelessWidget {
                                 width: 200,
                                 child: MaterialButton(
                                   padding: const EdgeInsets.only(top: 3),
-                                  onPressed: () {},
+                                  onPressed: () async {
+                                    await OrderApi.deleteOrder(
+                                        widget.orderData.id);
+                                    ref.read(carProvider.notifier).getCars();
+                                    ref
+                                        .read(historyProvider.notifier)
+                                        .getOrders();
+                                    DefaultTabController.of(context).index = 0;
+                                    HomescreenMain.restartApp(context);
+                                  },
                                   color: Colors.green,
                                   child: const Text(
                                     "Confirm Return",

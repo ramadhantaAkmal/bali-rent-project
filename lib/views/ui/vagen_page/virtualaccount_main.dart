@@ -5,9 +5,11 @@ import 'package:bali_rent/style.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../../viewmodel/order_providers.dart';
+import '../homescreen_page/homescreen_main.dart';
 
 class VirtualAccountMain extends ConsumerStatefulWidget {
   const VirtualAccountMain({super.key});
@@ -122,8 +124,8 @@ class _VirtualAccountMainState extends ConsumerState<VirtualAccountMain> {
                               var transaction = ref.watch(orderProvider);
                               OrderApi.checkStatus(
                                   transaction["orderId"], transaction["token"]);
-                              Navigator.of(context)
-                                  .popUntil((route) => route.isFirst);
+                              HomescreenMain.restartApp(context);
+                              context.pushReplacement('/homescreen');
                             },
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(10.0),

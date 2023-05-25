@@ -71,9 +71,6 @@ class WelcomeMain extends ConsumerWidget {
                     color: Colors.white),
               ),
               onPressed: () {
-                ref.read(brandProvider.notifier).getBrands();
-                ref.read(carProvider.notifier).getCars();
-                ref.read(historyProvider.notifier).getOrders();
                 context.pushReplacement('/homescreen');
               },
             ),
