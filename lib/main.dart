@@ -13,7 +13,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp.router(
       debugShowCheckedModeBanner: false,
-      title: 'Flutter Demo',
+      title: 'Bali Rent',
       theme: ThemeData(
         fontFamily: "NotoSans",
         primarySwatch: Colors.blue,
