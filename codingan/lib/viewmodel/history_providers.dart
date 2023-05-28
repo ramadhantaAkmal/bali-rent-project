@@ -38,7 +38,7 @@ class HistoryNotifier extends StateNotifier<List<OrderModel>> {
   void setUserId() async {
     SharedPreferences pref = await SharedPreferences.getInstance();
     var token = json.decode(pref.getString("token")!);
-    userId = token["id"];
+    userId = token["id"] ?? 0;
   }
 
   List<OrderModel> filterOrders(String tab) {

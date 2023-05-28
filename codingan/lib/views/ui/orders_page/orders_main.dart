@@ -65,145 +65,180 @@ class _OrdersMainState extends ConsumerState<OrdersMain> {
   }
 
   Widget _buildBody(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        TabBar(
-          onTap: (value) {
-            setState(() {
-              _historyLength = ref
-                  .read(historyProvider.notifier)
-                  .filterOrders("done")
-                  .length;
-              _upcomingLength = ref
-                  .read(historyProvider.notifier)
-                  .filterOrders("upcoming")
-                  .length;
-            });
-          },
-          tabs: [
-            const Tab(
-              text: 'Active',
+    return Container(
+      color: Colors.white,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          TabBar(
+            onTap: (value) {
+              setState(() {
+                _historyLength = ref
+                    .read(historyProvider.notifier)
+                    .filterOrders("done")
+                    .length;
+                _upcomingLength = ref
+                    .read(historyProvider.notifier)
+                    .filterOrders("upcoming")
+                    .length;
+              });
+            },
+            tabs: [
+              const Tab(
+                text: 'Active',
+              ),
+              Tab(
+                text: 'Upcoming ($_upcomingLength)',
+              ),
+              Tab(text: 'History ($_historyLength)'),
+            ],
+            labelColor: primaryColor,
+            unselectedLabelColor: Colors.black,
+            dividerColor: primaryColor,
+            indicatorColor: primaryColor,
+            padding: const EdgeInsets.only(top: 18, left: 13, right: 30),
+            labelStyle:
+                const TextStyle(overflow: TextOverflow.visible, fontSize: 13),
+            unselectedLabelStyle: const TextStyle(
+              overflow: TextOverflow.visible,
             ),
-            Tab(
-              text: 'Upcoming ($_upcomingLength)',
-            ),
-            Tab(text: 'History ($_historyLength)'),
-          ],
-          labelColor: primaryColor,
-          unselectedLabelColor: Colors.black,
-          dividerColor: primaryColor,
-          indicatorColor: primaryColor,
-          padding: const EdgeInsets.only(top: 18, left: 13, right: 30),
-          labelStyle:
-              const TextStyle(overflow: TextOverflow.visible, fontSize: 13),
-          unselectedLabelStyle: const TextStyle(
-            overflow: TextOverflow.visible,
           ),
-        ),
-        Expanded(
-          child: Container(
-              padding: const EdgeInsets.symmetric(horizontal: 1),
-              height: MediaQuery.of(context).size.height,
-              width: 440,
-              child: TabBarView(children: [
-                Consumer(
-                  builder: (context, ref, _) {
-                    final filtered = ref
-                        .watch(historyProvider.notifier)
-                        .filterOrders("active");
+          Expanded(
+            child: Container(
+                padding: const EdgeInsets.symmetric(horizontal: 1),
+                height: MediaQuery.of(context).size.height,
+                width: 440,
+                child: TabBarView(children: [
+                  Consumer(
+                    builder: (context, ref, _) {
+                      final filtered = ref
+                          .watch(historyProvider.notifier)
+                          .filterOrders("active");
 
-                    return ListView.builder(
-                      itemBuilder: (context, index) {
-                        return Column(
-                          children: [
-                            const SizedBox(
-                              height: 20,
-                            ),
-                            context.debugDoingBuild
-                                ? const Center(
-                                    child: CircularProgressIndicator(),
-                                  )
-                                : OrderCard(filtered[index]),
-                          ],
-                        );
-                      },
-                      itemCount: filtered.length,
-                      shrinkWrap: true,
-                    );
-                  },
-                ),
-                Consumer(
-                  builder: (context, ref, _) {
-                    final filtered = ref
-                        .watch(historyProvider.notifier)
-                        .filterOrders("upcoming");
-
-                    return ListView.builder(
-                      itemBuilder: (context, index) {
-                        return Column(
-                          children: [
-                            const SizedBox(
-                              height: 20,
-                            ),
-                            context.debugDoingBuild
-                                ? const Center(
-                                    child: CircularProgressIndicator(),
-                                  )
-                                : UpcomingCard(filtered[index]),
-                          ],
-                        );
-                      },
-                      itemCount: filtered.length,
-                      shrinkWrap: true,
-                    );
-                  },
-                ),
-                Consumer(
-                  builder: (context, ref, _) {
-                    final filtered = ref
-                        .watch(historyProvider.notifier)
-                        .filterOrders("done");
-
-                    return filtered.isEmpty
-                        ? Center(
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Image(
-                                  image:
-                                      AssetImage('assets/images/emptylist.jpg'),
-                                ),
-                                Text(
-                                  "The list is empty",
-                                  style: TextStyle(color: Colors.grey),
-                                )
-                              ],
-                            ),
-                          )
-                        : ListView.builder(
-                            itemBuilder: (context, index) {
-                              return Column(
+                      return filtered.isEmpty
+                          ? Center(
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
-                                  const SizedBox(
-                                    height: 20,
+                                  Image(
+                                    image: AssetImage(
+                                        'assets/images/emptylist.jpg'),
                                   ),
-                                  context.debugDoingBuild
-                                      ? const Center(
-                                          child: CircularProgressIndicator(),
-                                        )
-                                      : OrderCardDone(filtered[index]),
+                                  Text(
+                                    "The list is empty",
+                                    style: TextStyle(color: Colors.grey),
+                                  )
                                 ],
-                              );
-                            },
-                            itemCount: filtered.length,
-                            shrinkWrap: true,
-                          );
-                  },
-                ),
-              ])),
-        ),
-      ],
+                              ),
+                            )
+                          : ListView.builder(
+                              itemBuilder: (context, index) {
+                                return Column(
+                                  children: [
+                                    const SizedBox(
+                                      height: 20,
+                                    ),
+                                    context.debugDoingBuild
+                                        ? const Center(
+                                            child: CircularProgressIndicator(),
+                                          )
+                                        : OrderCard(filtered[index]),
+                                  ],
+                                );
+                              },
+                              itemCount: filtered.length,
+                              shrinkWrap: true,
+                            );
+                    },
+                  ),
+                  Consumer(
+                    builder: (context, ref, _) {
+                      final filtered = ref
+                          .watch(historyProvider.notifier)
+                          .filterOrders("upcoming");
+
+                      return filtered.isEmpty
+                          ? Center(
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Image(
+                                    image: AssetImage(
+                                        'assets/images/emptylist.jpg'),
+                                  ),
+                                  Text(
+                                    "The list is empty",
+                                    style: TextStyle(color: Colors.grey),
+                                  )
+                                ],
+                              ),
+                            )
+                          : ListView.builder(
+                              itemBuilder: (context, index) {
+                                return Column(
+                                  children: [
+                                    const SizedBox(
+                                      height: 20,
+                                    ),
+                                    context.debugDoingBuild
+                                        ? const Center(
+                                            child: CircularProgressIndicator(),
+                                          )
+                                        : UpcomingCard(filtered[index]),
+                                  ],
+                                );
+                              },
+                              itemCount: filtered.length,
+                              shrinkWrap: true,
+                            );
+                    },
+                  ),
+                  Consumer(
+                    builder: (context, ref, _) {
+                      final filtered = ref
+                          .watch(historyProvider.notifier)
+                          .filterOrders("done");
+
+                      return filtered.isEmpty
+                          ? Center(
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Image(
+                                    image: AssetImage(
+                                        'assets/images/emptylist.jpg'),
+                                  ),
+                                  Text(
+                                    "The list is empty",
+                                    style: TextStyle(color: Colors.grey),
+                                  )
+                                ],
+                              ),
+                            )
+                          : ListView.builder(
+                              itemBuilder: (context, index) {
+                                return Column(
+                                  children: [
+                                    const SizedBox(
+                                      height: 20,
+                                    ),
+                                    context.debugDoingBuild
+                                        ? const Center(
+                                            child: CircularProgressIndicator(),
+                                          )
+                                        : OrderCardDone(filtered[index]),
+                                  ],
+                                );
+                              },
+                              itemCount: filtered.length,
+                              shrinkWrap: true,
+                            );
+                    },
+                  ),
+                ])),
+          ),
+        ],
+      ),
     );
   }
 }
