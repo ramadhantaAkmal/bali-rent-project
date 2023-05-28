@@ -7,6 +7,7 @@ import 'package:flutter/scheduler.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:flutter/services.dart';
 
 import '../../../viewmodel/order_providers.dart';
 import '../homescreen_page/homescreen_main.dart';
@@ -80,6 +81,11 @@ class _VirtualAccountMainState extends ConsumerState<VirtualAccountMain> {
                             fontSize: 25, fontWeight: FontWeight.w500),
                       ),
               ),
+              IconButton(
+                  onPressed: () {
+                    Clipboard.setData(ClipboardData(text: _vaText));
+                  },
+                  icon: Icon(Icons.content_copy)),
               Column(
                 children: [
                   Container(
