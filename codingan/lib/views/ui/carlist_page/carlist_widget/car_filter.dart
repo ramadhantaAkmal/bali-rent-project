@@ -70,7 +70,7 @@ class _CarSelectionDialogState extends ConsumerState<CarSelectionDialog> {
               ListTile(
                 title: const Text("Not Available"),
                 leading: Radio<String>(
-                  value: "notavailable",
+                  value: "not-available",
                   groupValue: selectedStatus,
                   onChanged: (String? value) {
                     setState(() {

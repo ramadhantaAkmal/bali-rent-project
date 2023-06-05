@@ -154,7 +154,7 @@ class _LoginMainState extends ConsumerState<LoginMain> {
                         color: primaryColor,
                       )),
                       border: const OutlineInputBorder(),
-                      labelText: 'Username',
+                      labelText: 'Username/Email',
                       // The MaterialStateProperty's value is a text style that is orange
                       // by default, but the theme's error color if the input decorator
                       // is in its error state.
